@@ -1,0 +1,95 @@
+.title {
+    text-transform: uppercase;
+    position: relative;
+    font-weight: 400;
+    margin-bottom: 30px;
+}
+
+#main-header {
+    background: #FFFFFF url(../images/header.png) fixed;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+}
+
+#main-header .logo {
+    margin: auto;
+    font-weight: bold;
+    font-size: 5em;
+    color: #333333;
+}
+
+#main-header .logo .highlight {
+    color: #3fabff;
+}
+
+nav .logo {
+    height: 30px;
+}
+
+nav .nav-link {
+    font-variant: all-petite-caps;    
+}
+
+#homepage .marketing {
+    background: #3fabff;
+    padding: 30px;
+}
+
+#homepage .marketing .item {
+    display: flex;
+    height: 200px;    
+}
+
+#homepage .marketing .item h2 {
+    margin: auto;
+    color: #FFFFFF;
+}
+
+#homepage .about .text {
+    padding: 40px;
+    text-align: justify;
+}
+
+#homepage .about .about-us .img div {
+    background: url("../images/homepage/pen-idea-bulb-paper.jpg");    
+}
+
+#homepage .about .objectives .img div {
+    background: url('../images/homepage/pexels-photo-437345.jpeg');
+}
+#homepage .about .about-us .img div,
+#homepage .about .objectives .img div {
+    height: 100%;
+    background-size: 100%;
+    background-position: center;
+}
+
+#homepage .about .title:after {
+    content: "";
+    position: absolute;
+    height: 7px;
+    width: 100px;
+    background: #3fabff;
+    bottom: -20px;
+    left: 0;
+}
+
+#homepage #join-us {
+    background: #3fabff;
+    padding: 30px;
+    color: #FFFFFF;
+}
+
+#main-footer {
+    padding: 20px;
+    background: #007ed8;
+    color: #EAEAEA;
+}
+
+#main-footer a {
+    color: #EAEAEA;
+    font-weight: bold;
+}
