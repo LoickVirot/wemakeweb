@@ -1,0 +1,17 @@
+{% block title %}Account created{% endblock %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends "::base.html.twig" %}
+{% block body %}
+    <div class="container" id="confirmed">
+        {% trans_default_domain 'FOSUserBundle' %}
+        <div class="alert alert-success" role="alert">
+            {% block fos_user_content %}
+                <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+                {% if targetUrl %}
+                    <p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
+                {% endif %}
+            {% endblock fos_user_content %}
+        </div>
+    </div>
+{% endblock %}

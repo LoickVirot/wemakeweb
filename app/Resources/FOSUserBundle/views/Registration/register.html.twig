@@ -1,0 +1,27 @@
+{% block title %}Register{% endblock %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends "::base.html.twig" %}
+{% block body %}
+    <div class="container" id="register">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Register</h2>
+                        {% trans_default_domain 'FOSUserBundle' %}
+                        
+                        {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+                            {{ form_widget(form) }}
+                            <div>
+                                <input type="submit" value="{{ 'registration.submit'|trans }}" class="btn btn-primary"/>
+                            </div>
+                        {{ form_end(form) }}
+                        <hr>
+                        <p class="text-center">Already an account ? <a href="{{ path('fos_user_security_login') }}">Login</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}    

@@ -1,8 +1,20 @@
+body {
+    background-color: #EAEAEA;
+}
+
 .title {
     text-transform: uppercase;
     position: relative;
     font-weight: 400;
     margin-bottom: 30px;
+}
+
+.btn {
+    cursor: pointer;
+}
+
+#body {
+    margin-top: 50px;
 }
 
 #main-header {
@@ -49,6 +61,7 @@ nav .nav-link {
 }
 
 #homepage .about .text {
+    background: #FFFFFF;
     padding: 40px;
     text-align: justify;
 }
@@ -92,4 +105,8 @@ nav .nav-link {
 #main-footer a {
     color: #EAEAEA;
     font-weight: bold;
+}
+
+#login, #register, #confirmed {
+    padding: 50px 0;
 }
