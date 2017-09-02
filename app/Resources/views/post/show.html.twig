@@ -1,52 +1,38 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Post</h1>
-
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ post.id }}</td>
-            </tr>
-            <tr>
-                <th>Creationdate</th>
-                <td>{{ post.creationDate | date('d-m-Y') }}</td>
-            </tr>
-            <tr>
-                <th>Lastupdate</th>
-                <td>{{ post.lastUpdate | date('d-m-Y') }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ post.title }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ post.content }}</td>
-            </tr>
-            <tr>
-                <th>Category</th>
-                <td>{{ post.category }}</td>
-            </tr>
-            <tr>
-                <th>Tags</th>
-                <td>{{ post.tags }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('post_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('post_edit', { 'id': post.id }) }}">Edit</a>
-        </li>
-        <li>
+<div class="container page-content" id="post-show">
+    <div class="post-action">
+        <a href="{{ path('post_index') }}" class="btn btn-secondary">Back to the list</a>
+        <a href="{{ path('post_edit', { 'id': post.id }) }}" class="btn btn-primary">Edit</a>
+        <div class="float-right">
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input type="submit" value="Delete" class="btn btn-danger">
             {{ form_end(delete_form) }}
-        </li>
-    </ul>
+        </div>
+    </div>
+
+    
+
+    <header class="post-header">
+        <div class="author float-right">
+            Post created by <a href="#">{{ post.author.username }}</a>
+        </div>
+        <div class="post-title">
+            {% if post.lastUpdate is not null %}
+            <h5 class="post-date">Updated at {{ post.lastUpdate|date('d F Y') }}</h5>    
+            {% else %}
+            <h5 class="post-date">Created at {{ post.creationDate|date('d F Y') }}</h5>
+            {% endif %}
+            <h1>{{ post.title }}</h1>
+        </div>
+    </header>
+    <hr>
+    
+    <div class="post-content">
+        {{ post.content }}
+    </div>
+
+    <hr>
+</div>
 {% endblock %}

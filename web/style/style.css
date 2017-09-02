@@ -116,3 +116,16 @@ nav .nav-link {
 .page-content {
     padding: 50px 0;
 }
+
+#post-list .card {
+    margin-bottom: 30px;
+}
+
+#post-show .post-date {
+    color: #AAAAAA;
+    font-weight: normal;
+}
+
+#post-show .post-content {
+    font-size: 1.2em;
+}
