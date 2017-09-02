@@ -13,6 +13,11 @@ body {
     cursor: pointer;
 }
 
+.card-link {
+    color: #333333;
+    font-weight: bold;
+}
+
 #body {
     margin-top: 50px;
 }
@@ -107,6 +112,7 @@ nav .nav-link {
     font-weight: bold;
 }
 
-#login, #register, #confirmed {
+#login, #register, #confirmed, #post-list,
+.page-content {
     padding: 50px 0;
 }

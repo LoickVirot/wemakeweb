@@ -1,0 +1,45 @@
+    {% extends 'base.html.twig' %}
+
+    {% block body %}
+    <div class="container page-content" id="post-list">
+        <h1>Last posts</h1>
+        <p>Here is the latest posts.</p>
+        <hr>
+        <div class="row">
+            {% for i in 0..2 %}
+                <div class="col-md-4 column-{{ i }}">
+                    {% if posts[i] is defined %}
+                        {% for post in posts[i] %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="{{ path('post_show', {id: post.id}) }}" class="card-link">
+                                            {{ post.title }}
+                                        </a>
+                                    </h4>
+                                    <div class="card-text">
+                                        {{ post.content|truncate(50) }}
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="float-right">
+                                        {% if post.lastUpdate is not null %}
+                                        <small>Updated at {{ post.lastUpdate|date('d/m/Y') }}</small>
+                                        {% else %}
+                                        <small>Created at {{ post.creationDate|date('d/m/Y') }}</small>
+                                        {% endif %}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <a href="#" class="card-link">{{post.author.username}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}                    
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endblock %}
