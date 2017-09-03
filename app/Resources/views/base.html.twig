@@ -29,9 +29,17 @@
                     </ul>
                     <ul class="navbar-nav">
                         {% if is_granted('ROLE_USER') %}
-                            <li class="nav-item">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('post_new') }}">Write</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ app.user.username }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="nav-link" href="{{ path('fos_user_security_logout') }}">Logout</a>
-                            </li>
+                            </div>
+                        </li>
                         {% else %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('fos_user_security_login') }}">Login</a>
