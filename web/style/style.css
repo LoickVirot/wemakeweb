@@ -1,5 +1,8 @@
 body {
     background-color: #EAEAEA;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
 .title {
@@ -20,6 +23,7 @@ body {
 
 #body {
     margin-top: 50px;
+    flex: 1 0 auto;
 }
 
 #main-header {
