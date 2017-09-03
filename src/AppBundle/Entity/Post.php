@@ -70,6 +70,10 @@ class Post
         $this->creationDate = new \DateTime();
     }
 
+    public function __toString() {
+        return $this->getTitle();
+    }
+
     /**
      * Get id
      *

@@ -60,9 +60,11 @@ class PostController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Stop XSS insertion to content
-            $data = $editForm->getData();
+            $data = $form->getData();
             $data->setContent(str_ireplace('<script>', '&lt;script&gt;', $data->getContent()));
             $data->setContent(str_ireplace('</script>', '&lt;/script&gt;', $data->getContent()));
+
+            $data->setAuthor($this->getUser());
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
