@@ -3,20 +3,24 @@
 {% block body %}
 <div class="container page-content" id="post-show">
     <div class="post-action">
-        {{ form_start(delete_form) }}        
-        <div class="btn-group float-right">
-            <button type="submit" class="btn btn-outline-danger"><span class="oi oi-trash"></span>&nbsp;Delete</button>                
-            <a href="{{ path('post_edit', { 'id': post.id }) }}" class="btn btn-outline-primary"><span class="oi oi-pencil"></span>&nbsp;Edit</a>        
-        </div>
-        {{ form_end(delete_form) }}
+        {% if app.user == post.author or is_granted('ROLE_ADMIN') %}    
+            {{ form_start(delete_form) }}        
+            <div class="btn-group float-right">
+                <button type="submit" class="btn btn-outline-danger"><span class="oi oi-trash"></span>&nbsp;Delete</button>                
+                <a href="{{ path('post_edit', { 'id': post.id }) }}" class="btn btn-outline-primary"><span class="oi oi-pencil"></span>&nbsp;Edit</a>        
+            </div>
+            {{ form_end(delete_form) }}
+        {% endif %}    
         <a href="{{ app.request.headers.get('referer') }}" class="btn btn-outline-secondary"><span class="oi oi-arrow-left"></span>&nbsp;Back</a>
     </div>
     <header class="post-header">
         <div class="post-info">
             <div class="post-tags float-right">
+                {% if post.category.name is defined %}
                 <div>
                     <small><span class="oi oi-paperclip"></span>&nbsp;<a href="#">{{ post.category.name }}</a></small>                
                 </div>
+                {% endif %}
                 <div>
                     <small><span class="oi oi-tags"></span>&nbsp;<a href="#">{{ post.tags }}</a></small>                
                 </div>

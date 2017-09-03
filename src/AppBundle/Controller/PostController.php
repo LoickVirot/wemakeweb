@@ -5,7 +5,10 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Post controller.
@@ -47,6 +50,7 @@ class PostController extends Controller
      *
      * @Route("/new", name="post_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")
      */
     public function newAction(Request $request)
     {
@@ -94,9 +98,20 @@ class PostController extends Controller
      *
      * @Route("/{id}/edit", name="post_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_USER')")     
      */
     public function editAction(Request $request, Post $post)
     {
+        if (!$this->getUser()->hasRole('ROLE_ADMIN') and ($this->getUser() != $post->getAuthor())) {
+            $session = new Session();
+            $session->getFlashBag()->add('danger', 'Permission denied');
+            $redirect = $request->headers->get('referer');
+            if (is_null($redirect)) {
+                $redirect = $this->generateUrl('post_index');
+            }
+            return $this->redirect($redirect);
+        } 
+
         $deleteForm = $this->createDeleteForm($post);
         $editForm = $this->createForm('AppBundle\Form\PostType', $post);
         $editForm->handleRequest($request);
@@ -127,9 +142,20 @@ class PostController extends Controller
      *
      * @Route("/{id}", name="post_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_USER')")     
      */
     public function deleteAction(Request $request, Post $post)
     {
+        if (!$this->getUser()->hasRole('ROLE_ADMIN') and ($this->getUser() != $post->getAuthor())) {
+            $session = new Session();
+            $session->getFlashBag()->add('danger', 'Permission denied');
+            $redirect = $request->headers->get('referer');
+            if (is_null($redirect)) {
+                $redirect = $this->generateUrl('post_index');
+            }
+            return $this->redirect($redirect);
+        } 
+
         $form = $this->createDeleteForm($post);
         $form->handleRequest($request);
 
