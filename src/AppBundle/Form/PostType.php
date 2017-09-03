@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class PostType extends AbstractType
 {
@@ -21,7 +22,10 @@ class PostType extends AbstractType
                 'id' => 'post-content-editor'
             ]
         ])
-        ->add('category')
+        ->add('category', EntityType::class, [
+            'class' => 'AppBundle:Category',
+            'choice_label' => 'name'
+        ])
         ->add('tags');
     }
     

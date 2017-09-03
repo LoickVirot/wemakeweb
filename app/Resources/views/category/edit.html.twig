@@ -1,0 +1,18 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block admin_body %}
+    <h2>Category edit</h2>
+
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <input type="submit" value="Edit" class="btn btn-primary float-right"/>
+    {{ form_end(edit_form) }}
+
+    {{ form_start(delete_form) }}    
+        <div class="d-flex justify-content-start btn-group">
+            <a href="{{ path('admin_category_index') }}" class="btn btn-outline-secondary"><span class="oi oi-arrow-left"></span>&nbsp; Back to the list</a>                                        
+            <input type="submit" value="Delete" class="btn btn-outline-danger">
+        </div>
+    {{ form_end(delete_form) }}
+        
+{% endblock %}
