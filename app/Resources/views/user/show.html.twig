@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container page-content">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h2>{{ user.username }}</h2>
+                        <dl class="row">
+                            <dt class="col-sm-3">Email</dt>
+                            <dd class="col-sm-9">{{ user.email }}</dd>
+                        </dl>
+                        <a href="{{ path('user_edit', {id: user.id}) }}"><span class="oi oi-pencil"></span>&nbsp;Edit profile</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                {% for post in user.posts %}
+                    <article class="card">
+                        <div class="card-body">
+                            <h3 class="card-title"><a href="{{ path('post_show', {id: post.id}) }}">{{post.title}}</a></h3>
+                            <div class="card-text">
+                                {{ post.content|truncate(50)|striptags }}                                    
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}                
+            </div>
+        </div>
+    </div>
+{% endblock %}
