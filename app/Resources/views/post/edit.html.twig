@@ -1,21 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Post edit</h1>
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('style/trumbowyg.min.css') }}">
+{% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('javascript/trumbowyg.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#appbundle_post_content').trumbowyg({
+                btns: [['formatting'], 'strong', 'em', '|', 'link', 'insertImage'],
+                autogrow: true
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+<div class="container page-content" id="post-edit">
+    <h1>Post edit</h1>
+    
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
+        <div class="float-right">
+            <a href="{{ path('post_show', {id: post.id}) }}" class="btn btn-outline-secondary">Cancel</a>                
+            <input type="submit" value="Edit" class="btn btn-primary"/>
+        </div>
     {{ form_end(edit_form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('post_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    {{ form_start(delete_form) }}
+        <a href="{{ path('post_index') }}" class="btn btn-outline-secondary">All articles</a>                    
+        <input type="submit" value="Delete" class="btn btn-outline-danger">
+    {{ form_end(delete_form) }}
+</div>
 {% endblock %}

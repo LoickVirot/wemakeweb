@@ -55,6 +55,11 @@ class PostController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Stop XSS insertion to content
+            $data = $editForm->getData();
+            $data->setContent(str_ireplace('<script>', '&lt;script&gt;', $data->getContent()));
+            $data->setContent(str_ireplace('</script>', '&lt;/script&gt;', $data->getContent()));
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
             $em->flush();
@@ -97,6 +102,14 @@ class PostController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            // Stop XSS insertion to content
+            $data = $editForm->getData();
+            $data->setContent(str_ireplace('<script>', '&lt;script&gt;', $data->getContent()));
+            $data->setContent(str_ireplace('</script>', '&lt;/script&gt;', $data->getContent()));
+
+            // Change last update
+            $data->setLastUpdate(new \DateTime());
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('post_edit', array('id' => $post->getId()));

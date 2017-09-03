@@ -1,18 +1,32 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('style/trumbowyg.min.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('javascript/trumbowyg.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#appbundle_post_content').trumbowyg({
+                btns: [['formatting'], 'strong', 'em', '|', 'link', 'insertImage'],
+                autogrow: true
+            });
+        });
+    </script>
+{% endblock %}
+
 {% block body %}
-<div class="container">
+<div class="container page-content">
     <h1>Post creation</h1>
     
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+        <div class="float-right">
+            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-outline-secondary">Cancel</a>
+            <input type="submit" value="Create" class="btn btn-primary"/>            
+        </div>
     {{ form_end(form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('post_index') }}">Back to the list</a>
-        </li>
-    </ul>
 </div>
 {% endblock %}
