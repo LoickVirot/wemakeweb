@@ -30,7 +30,9 @@
                                 <dd class="col-sm-8"><a href="{{ user.website }}" target="_blank">{{ user.website }}</a></dd>
                             {% endif %}
                         </dl>
-                        <a href="{{ path('user_edit', {id: user.id}) }}"><span class="oi oi-pencil"></span>&nbsp;Edit profile</a>
+                        {% if app.user == user %}
+                            <a href="{{ path('user_edit', {id: user.id}) }}"><span class="oi oi-pencil"></span>&nbsp;Edit profile</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

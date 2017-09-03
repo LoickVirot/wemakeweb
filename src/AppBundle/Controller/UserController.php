@@ -5,8 +5,10 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * User controller.
@@ -37,6 +39,11 @@ class UserController extends Controller
      */
     public function editAction(Request $request, User $user)
     {
+        if ($this->getUser() != $user) {
+            $session = new Session();
+            $session->getFlashBag()->add('danger', 'access denied');
+            return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
+        }
         $deleteForm = $this->createDeleteForm($user);
         $editForm = $this->createForm('AppBundle\Form\UserType', $user);
         $editForm->handleRequest($request);
