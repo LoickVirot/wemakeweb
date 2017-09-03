@@ -121,6 +121,15 @@ nav .nav-link {
     margin-bottom: 30px;
 }
 
+#post-list .card .post-category,
+#post-list .card .post-category a {
+    color: #AAAAAA;
+}
+
+#post-show .post-action {
+    margin-bottom: 40px;
+}
+
 #post-show .post-date {
     color: #AAAAAA;
     font-weight: normal;
