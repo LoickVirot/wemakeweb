@@ -8,7 +8,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
-
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->add('firstname')->add('lastname')->add('twitter')->add('website');
+    }
+    
     /**
      * {@inheritdoc}
      */

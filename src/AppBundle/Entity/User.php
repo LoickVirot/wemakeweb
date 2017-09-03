@@ -24,6 +24,26 @@ class User extends BaseUser
     */
     protected $posts; 
 
+    /**
+    * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
+    */
+    protected $firstname;
+
+    /**
+    * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
+    */
+    protected $lastname;
+
+    /**
+    * @ORM\Column(name="twitter", type="string", length=255, nullable=true)
+    */
+    protected $twitter;
+
+    /**
+    * @ORM\Column(name="website", type="string", length=255, nullable=true)
+    */
+    protected $website;
+
     public function __construct()
     {
         parent::__construct();
@@ -62,5 +82,101 @@ class User extends BaseUser
     public function getPosts()
     {
         return $this->posts;
+    }
+
+    /**
+     * Set firstname
+     *
+     * @param string $firstname
+     *
+     * @return User
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    /**
+     * Get firstname
+     *
+     * @return string
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * Set lastname
+     *
+     * @param string $lastname
+     *
+     * @return User
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * Get lastname
+     *
+     * @return string
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * Set twitter
+     *
+     * @param string $twitter
+     *
+     * @return User
+     */
+    public function setTwitter($twitter)
+    {
+        $this->twitter = $twitter;
+
+        return $this;
+    }
+
+    /**
+     * Get twitter
+     *
+     * @return string
+     */
+    public function getTwitter()
+    {
+        return $this->twitter;
+    }
+
+    /**
+     * Set website
+     *
+     * @param string $website
+     *
+     * @return User
+     */
+    public function setWebsite($website)
+    {
+        $this->website = $website;
+
+        return $this;
+    }
+
+    /**
+     * Get website
+     *
+     * @return string
+     */
+    public function getWebsite()
+    {
+        return $this->website;
     }
 }

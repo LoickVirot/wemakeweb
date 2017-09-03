@@ -7,7 +7,28 @@
     <a href="{{ path('user_show', {id: user.id}) }}" class="btn btn-outline-secondary"><span class="oi oi-arrow-left"></span>&nbsp;Back</a>
 
     {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                {{ form_row(edit_form.firstname) }}                    
+            </div>
+            <div class="form-group col-md-6">
+                {{ form_row(edit_form.lastname) }}                    
+            </div>    
+        </div>
+        <h2>Social</h2>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                {{ form_label(edit_form.twitter) }}
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">@</span>
+                    {{ form_widget(edit_form.twitter) }}                 
+                </div>
+                {{ form_errors(edit_form.twitter) }}                
+            </div>
+            <div class="form-group col-md-6">
+                {{ form_row(edit_form.website) }}                    
+            </div>
+        </div>
         <input type="submit" value="Edit" class="btn btn-primary"/>
     {{ form_end(edit_form) }}
 

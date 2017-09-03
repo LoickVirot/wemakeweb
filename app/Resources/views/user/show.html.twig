@@ -8,8 +8,27 @@
                     <div class="card-body">
                         <h2>{{ user.username }}</h2>
                         <dl class="row">
-                            <dt class="col-sm-3">Email</dt>
-                            <dd class="col-sm-9">{{ user.email }}</dd>
+                            <dt class="col-sm-4">Email</dt>
+                            <dd class="col-sm-8">{{ user.email }}</dd>
+                            {% if user.firstname is not null %}
+                                <dt class="col-sm-4">Firstname</dt>
+                                <dd class="col-sm-8">{{ user.firstname }}</dd>
+                            {% endif %}
+                            {% if user.lastname is not null %}
+                                <dt class="col-sm-4">Lastname</dt>
+                                <dd class="col-sm-8">{{ user.lastname }}</dd>
+                            {% endif %}
+                        </dl>
+                        <h5>Social</h5>
+                        <dl class="row">
+                            {% if user.twitter is not null %}
+                                <dt class="col-sm-4">Twitter</dt>
+                                <dd class="col-sm-8"><a href="http://twitter.com/{{user.twitter}}" target="_blank">@{{ user.twitter }}</a></dd>
+                            {% endif %}
+                            {% if user.website is not null %}
+                                <dt class="col-sm-4">Website</dt>
+                                <dd class="col-sm-8"><a href="{{ user.website }}" target="_blank">{{ user.website }}</a></dd>
+                            {% endif %}
                         </dl>
                         <a href="{{ path('user_edit', {id: user.id}) }}"><span class="oi oi-pencil"></span>&nbsp;Edit profile</a>
                     </div>
