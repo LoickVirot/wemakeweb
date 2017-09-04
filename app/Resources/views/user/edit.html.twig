@@ -1,13 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="container page-content">
+<div class="container page-content" id="user_edit">
     <h1>User edit</h1>
         
     <a href="{{ path('user_show', {id: user.id}) }}" class="btn btn-outline-secondary"><span class="oi oi-arrow-left"></span>&nbsp;Back</a>
 
     {{ form_start(edit_form) }}
-        <div class="form-row">
+    <div class="profile-picture">
+        <h2>Profile picture</h2>
+        <img src="{{ asset('uploads/profile_pictures/' ~ user.getProfilePicture) }}" alt="profile_picture"/>
+        <div>
+            <div class="form-group">
+                <label for="appbundle_user_profilePicture" class="image-upload-label"><span class="oi oi-data-transfer-upload"></span>&nbsp;Upload new profil picture</label>
+                {{ form_widget(edit_form.profilePicture, {'attr': {'class': 'image-upload'}}) }}
+            </div>
+            {{ form_errors(edit_form.profilePicture) }}
+        </div>
+    </div>
+    <div class="form-row">
             <div class="form-group col-md-6">
                 {{ form_row(edit_form.firstname) }}                    
             </div>

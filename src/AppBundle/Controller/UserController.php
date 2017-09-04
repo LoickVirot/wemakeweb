@@ -39,6 +39,8 @@ class UserController extends Controller
      */
     public function editAction(Request $request, User $user)
     {
+        $oldProfilePicture = $user->getProfilePicture();
+
         if ($this->getUser() != $user) {
             $session = new Session();
             $session->getFlashBag()->add('danger', 'access denied');
@@ -49,6 +51,22 @@ class UserController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $picture = $user->getProfilePicture();
+            if ($picture != $oldProfilePicture) {
+                $pictureName = md5(uniqid()).'.'.$picture->guessExtension();
+
+                $picture->move(
+                    $this->getParameter('profile_picture_directory'),
+                    $pictureName
+                );
+
+                $oldFilePath = $this->getParameter('profile_picture_directory') . '/' . $oldProfilePicture;
+
+                if(file_exists($oldFilePath)) unlink($oldFilePath);
+
+                $user->setProfilePicture($pictureName);
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('user_edit', array('id' => $user->getId()));
