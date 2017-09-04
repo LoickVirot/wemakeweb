@@ -2,49 +2,61 @@
 
 {% block body %}
 <div class="container page-content" id="user_edit">
-    <h1>User edit</h1>
-        
-    <a href="{{ path('user_show', {id: user.id}) }}" class="btn btn-outline-secondary"><span class="oi oi-arrow-left"></span>&nbsp;Back</a>
-
     {{ form_start(edit_form) }}
-    <div class="profile-picture">
-        <h2>Profile picture</h2>
-        <img src="{{ asset('uploads/profile_pictures/' ~ user.getProfilePicture) }}" alt="profile_picture"/>
-        <div>
-            <div class="form-group">
-                <label for="appbundle_user_profilePicture" class="image-upload-label"><span class="oi oi-data-transfer-upload"></span>&nbsp;Upload new profil picture</label>
-                {{ form_widget(edit_form.profilePicture, {'attr': {'class': 'image-upload'}}) }}
+    <div class="row">
+        <div class="col-md-6">
+            <h2>User info</h2>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    {{ form_row(edit_form.firstname) }}
+                </div>
+                <div class="form-group col-md-6">
+                    {{ form_row(edit_form.lastname) }}
+                </div>
             </div>
-            {{ form_errors(edit_form.profilePicture) }}
+            <h2>Social</h2>
+            <div>
+                <div class="form-group">
+                    {{ form_label(edit_form.twitter) }}
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">@</span>
+                        {{ form_widget(edit_form.twitter) }}
+                    </div>
+                    {{ form_errors(edit_form.twitter) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(edit_form.website) }}
+                </div>
+            </div>
+        </div>
+        <div class="profile-picture col-md-3 ml-auto">
+            <h2>Profile picture</h2>
+            <img src="{{ asset('uploads/profile_pictures/' ~ user.getProfilePicture) }}" alt="profile_picture"/>
+            <div>
+                <div class="form-group">
+                    <label for="appbundle_user_profilePicture" class="image-upload-label"><span class="oi oi-data-transfer-upload"></span>&nbsp;Upload new profil picture</label>
+                    {{ form_widget(edit_form.profilePicture, {'attr': {'class': 'image-upload'}}) }}
+                </div>
+                {{ form_errors(edit_form.profilePicture) }}
+            </div>
         </div>
     </div>
-    <div class="form-row">
-            <div class="form-group col-md-6">
-                {{ form_row(edit_form.firstname) }}                    
-            </div>
-            <div class="form-group col-md-6">
-                {{ form_row(edit_form.lastname) }}                    
-            </div>    
-        </div>
-        <h2>Social</h2>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                {{ form_label(edit_form.twitter) }}
-                <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1">@</span>
-                    {{ form_widget(edit_form.twitter) }}                 
-                </div>
-                {{ form_errors(edit_form.twitter) }}                
-            </div>
-            <div class="form-group col-md-6">
-                {{ form_row(edit_form.website) }}                    
-            </div>
-        </div>
-        <input type="submit" value="Edit" class="btn btn-primary"/>
+    <a href="{{ path('user_show', {id: user.id}) }}" class="btn btn-outline-secondary"><span class="oi oi-arrow-left"></span>&nbsp;Cancel</a>
+    <input type="submit" value="Edit" class="btn btn-primary"/>
     {{ form_end(edit_form) }}
-
-    {{ form_start(delete_form) }}
-        <button type="submit" class="btn btn-danger"><span class="oi oi-trash"></span>&nbsp;Delete account</button>
-    {{ form_end(delete_form) }}
+    <hr>
+    <div class="delete-account">
+        <div class="card border-danger">
+            <div class="card-body text-danger">
+                <h4 class="card-title">Delete account</h4>
+                <p class="card-text">
+                    This action can't be reversed ! It will remove your info and posts.
+                    {{ form_start(delete_form) }}
+                    <button type="submit" class="btn btn-danger"><span class="oi oi-trash"></span>&nbsp;Delete account</button>
+                    {{ form_end(delete_form) }}
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

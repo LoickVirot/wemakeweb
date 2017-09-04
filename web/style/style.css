@@ -152,7 +152,7 @@ nav .nav-link {
 }
 
 #user_edit .profile-picture img {
-    width: 300px;
+    width: 100%;
 }
 
 #user_edit .profile-picture .image-upload {
@@ -164,6 +164,8 @@ nav .nav-link {
     display: inline-block;
     padding: 6px 12px;
     cursor: pointer;
+    width: 100%;
+    text-align: center;
 }
 
 
