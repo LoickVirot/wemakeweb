@@ -21,6 +21,12 @@ body {
     font-weight: bold;
 }
 
+.menu-profile-picture {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
 #body {
     padding-top: 50px;
     flex: 1 0 auto;
@@ -149,6 +155,10 @@ nav .nav-link {
 
 #post-show .post-content {
     font-size: 1.2em;
+}
+
+#user_show .posts article {
+    margin-bottom: 30px;
 }
 
 #user_edit .profile-picture img {

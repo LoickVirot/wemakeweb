@@ -1,10 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container page-content">
+    <div class="container page-content" id="user_show">
         <div class="row">
             <div class="col-md-4">
                 <div class="card">
+                    <img src="{{ asset('uploads/profile_pictures/' ~ user.getProfilePicture) }}" alt="profile_picture" class="card-img-top"/>
                     <div class="card-body">
                         <h2>{{ user.username }}</h2>
                         <dl class="row">
@@ -36,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8 posts">
                 {% for post in user.posts %}
                     <article class="card">
                         <div class="card-body">
