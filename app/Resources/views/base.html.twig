@@ -40,7 +40,11 @@
                         {% endif %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{ asset('uploads/profile_pictures/' ~ app.user.getProfilePicture) }}" alt="profile_picture" class="menu-profile-picture"/>
+                                {% if app.user.getProfilePicture is null %}
+                                    <img src="{{ asset(profile_picture_default) }}" alt="profile_picture" class="menu-profile-picture"/>
+                                {% else %}
+                                    <img src="{{ asset(profile_picture_directory ~ app.user.getProfilePicture) }}" alt="profile_picture" class="menu-profile-picture"/>
+                                {% endif %}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="nav-link" href="{{ path('user_show', {id: app.user.id}) }}">Profile</a>

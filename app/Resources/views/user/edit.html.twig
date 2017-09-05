@@ -31,7 +31,11 @@
         </div>
         <div class="profile-picture col-md-3 ml-auto">
             <h2>Profile picture</h2>
-            <img src="{{ asset('uploads/profile_pictures/' ~ user.getProfilePicture) }}" alt="profile_picture"/>
+            {% if user.getProfilePicture is null %}
+                <img src="{{ asset(profile_picture_default) }}" alt="profile_picture"/>
+            {% else %}
+                <img src="{{ asset(profile_picture_directory ~ user.getProfilePicture) }}" alt="profile_picture"/>
+            {% endif %}
             <div>
                 <div class="form-group">
                     <label for="appbundle_user_profilePicture" class="image-upload-label"><span class="oi oi-data-transfer-upload"></span>&nbsp;Upload new profil picture</label>

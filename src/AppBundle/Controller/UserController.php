@@ -52,7 +52,7 @@ class UserController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $picture = $user->getProfilePicture();
-            if ($picture != $oldProfilePicture) {
+            if (is_null($oldProfilePicture) or ($picture != $oldProfilePicture)) {
                 $pictureName = md5(uniqid()).'.'.$picture->guessExtension();
 
                 $picture->move(
@@ -60,9 +60,10 @@ class UserController extends Controller
                     $pictureName
                 );
 
-                $oldFilePath = $this->getParameter('profile_picture_directory') . '/' . $oldProfilePicture;
-
-                if(file_exists($oldFilePath)) unlink($oldFilePath);
+                if (!is_null($oldProfilePicture)) {
+                    $oldFilePath = $this->getParameter('profile_picture_directory') . '/' . $oldProfilePicture;
+                    if(file_exists($oldFilePath)) unlink($oldFilePath);
+                }
 
                 $user->setProfilePicture($pictureName);
             }

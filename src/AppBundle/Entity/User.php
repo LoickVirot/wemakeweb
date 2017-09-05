@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -29,7 +30,6 @@ class User extends BaseUser
     /**
      * @ORM\Column(name="profile_picture", type="text", length=255, nullable=true)
      *
-     * @Assert\NotBlank(message="Must be a png, jpeg or jpg file.")
      * @Assert\File(mimeTypes={ "image/png", "image/jpeg", "image/jpg" })
      */
     protected $profilePicture;
@@ -57,6 +57,7 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
+        $this->setProfilePicture(null);
     }
 
     /**

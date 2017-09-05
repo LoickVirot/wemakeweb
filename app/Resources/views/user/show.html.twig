@@ -5,7 +5,11 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="card">
-                    <img src="{{ asset('uploads/profile_pictures/' ~ user.getProfilePicture) }}" alt="profile_picture" class="card-img-top"/>
+                    {% if user.getProfilePicture is null %}
+                        <img src="{{ asset(profile_picture_default) }}" alt="profile_picture" class="card-img-top"/>
+                    {% else %}
+                        <img src="{{ asset(profile_picture_directory ~ user.getProfilePicture) }}" alt="profile_picture" class="card-img-top"/>
+                    {% endif %}
                     <div class="card-body">
                         <h2>{{ user.username }}</h2>
                         <dl class="row">
