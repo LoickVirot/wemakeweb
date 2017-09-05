@@ -97,6 +97,7 @@ easy_admin:
     design:
         brand_color: '#3fabff'
     entities:
+        - AppBundle\Entity\StaticPage
         - AppBundle\Entity\Category
         - AppBundle\Entity\Post
         - AppBundle\Entity\User

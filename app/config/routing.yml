@@ -9,3 +9,9 @@ easy_admin_bundle:
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+pageNotFound:
+    path:  /{path}
+    defaults: { _controller: AppBundle:Default:staticPage, path: '' }
+    requirements:
+        path: .*

@@ -5,17 +5,28 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DefaultController extends Controller
 {
-    /**
-     * @Route("/", name="homepage")
-     */
-    public function indexAction(Request $request)
+    public function staticPageAction(Request $request, $path)
     {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-        ]);
+        $em = $this->getDoctrine()->getManager();
+
+        //Homepage is called
+        if (empty($path)) {
+            $path = '/';
+        }
+
+        $staticPage = $em->getRepository('AppBundle:StaticPage')->findOneBy([
+            'url' => $path
+            ]
+        );
+
+        if (!is_null($staticPage)) {
+            return $this->render('base.html.twig', ['staticcontent' => $staticPage->getContent()]);
+        }
+
+        throw new NotFoundHttpException('Route not found');
     }
 }
