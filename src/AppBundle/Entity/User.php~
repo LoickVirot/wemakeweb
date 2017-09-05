@@ -24,9 +24,63 @@ class User extends BaseUser
     */
     protected $posts; 
 
+    /**
+    * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
+    */
+    protected $firstname;
+
+    /**
+    * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
+    */
+    protected $lastname;
+
+    /**
+    * @ORM\Column(name="twitter", type="string", length=255, nullable=true)
+    */
+    protected $twitter;
+
+    /**
+    * @ORM\Column(name="website", type="string", length=255, nullable=true)
+    */
+    protected $website;
+
     public function __construct()
     {
         parent::__construct();
         // your own logic
+    }
+
+    /**
+     * Add post
+     *
+     * @param \AppBundle\Entity\Post $post
+     *
+     * @return User
+     */
+    public function addPost(\AppBundle\Entity\Post $post)
+    {
+        $this->posts[] = $post;
+
+        return $this;
+    }
+
+    /**
+     * Remove post
+     *
+     * @param \AppBundle\Entity\Post $post
+     */
+    public function removePost(\AppBundle\Entity\Post $post)
+    {
+        $this->posts->removeElement($post);
+    }
+
+    /**
+     * Get posts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPosts()
+    {
+        return $this->posts;
     }
 }

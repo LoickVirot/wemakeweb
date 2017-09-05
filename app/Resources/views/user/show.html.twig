@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container page-content" id="user_show">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    {% if user.getProfilePicture is null %}
+                        <img src="{{ asset(profile_picture_default) }}" alt="profile_picture" class="card-img-top"/>
+                    {% else %}
+                        <img src="{{ asset(profile_picture_directory ~ user.getProfilePicture) }}" alt="profile_picture" class="card-img-top"/>
+                    {% endif %}
+                    <div class="card-body">
+                        <h2>{{ user.username }}</h2>
+                        <dl class="row">
+                            <dt class="col-sm-4">Email</dt>
+                            <dd class="col-sm-8">{{ user.email }}</dd>
+                            {% if user.firstname is not null %}
+                                <dt class="col-sm-4">Firstname</dt>
+                                <dd class="col-sm-8">{{ user.firstname }}</dd>
+                            {% endif %}
+                            {% if user.lastname is not null %}
+                                <dt class="col-sm-4">Lastname</dt>
+                                <dd class="col-sm-8">{{ user.lastname }}</dd>
+                            {% endif %}
+                        </dl>
+                        <h5>Social</h5>
+                        <dl class="row">
+                            {% if user.twitter is not null %}
+                                <dt class="col-sm-4">Twitter</dt>
+                                <dd class="col-sm-8"><a href="http://twitter.com/{{user.twitter}}" target="_blank">@{{ user.twitter }}</a></dd>
+                            {% endif %}
+                            {% if user.website is not null %}
+                                <dt class="col-sm-4">Website</dt>
+                                <dd class="col-sm-8"><a href="{{ user.website }}" target="_blank">{{ user.website }}</a></dd>
+                            {% endif %}
+                        </dl>
+                        {% if app.user == user %}
+                            <a href="{{ path('user_edit', {id: user.id}) }}"><span class="oi oi-pencil"></span>&nbsp;Edit profile</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 posts">
+                {% for post in user.posts %}
+                    <article class="card">
+                        <div class="card-body">
+                            <h3 class="card-title"><a href="{{ path('post_show', {id: post.id}) }}">{{post.title}}</a></h3>
+                            <div class="card-text">
+                                {{ post.content|truncate(50)|striptags }}                                    
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}                
+            </div>
+        </div>
+    </div>
+{% endblock %}
