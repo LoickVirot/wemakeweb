@@ -27,6 +27,10 @@ body {
     border-radius: 50%;
 }
 
+img.profile-picture {
+    border-radius: 50%;
+}
+
 #body {
     padding-top: 50px;
     flex: 1 0 auto;
@@ -154,7 +158,27 @@ nav .nav-link {
 }
 
 #post-show .post-content {
+    margin-top: 30px;
     font-size: 1.2em;
+}
+
+#post-show .author .profile-picture {
+    width: 50px;
+    height: 50px;
+}
+
+#post-show .author .username {
+    margin: 0;
+}
+
+#post-show .author .username a {
+    color: #333;
+    font-weight: 600;
+}
+
+#post-show .author .user-info {
+    color: #AAAAAA;
+    font-style: italic;
 }
 
 #user_show .posts article {
