@@ -45,9 +45,18 @@
                 {% for post in user.posts %}
                     <article class="card">
                         <div class="card-body">
-                            <h3 class="card-title"><a href="{{ path('post_show', {id: post.id}) }}">{{post.title}}</a></h3>
+                            <h3 class="card-title">
+                                <a href="{{ path('post_show', {id: post.id}) }}">{{post.title}}</a>
+                            </h3>
                             <div class="card-text">
-                                {{ post.content|truncate(50)|striptags }}                                    
+                                {{ post.content|truncate(150)|striptags }}
+                            </div>
+                            <div class="card-text text-secondary">
+                                {% if post.lastUpdate is not null %}
+                                    <small class="post-date">Updated at {{ post.lastUpdate|date('d F Y') }}</small>
+                                {% else %}
+                                    <small class="post-date">Created at {{ post.creationDate|date('d F Y') }}</small>
+                                {% endif %}
                             </div>
                         </div>
                     </article>
