@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * User controller.
@@ -18,7 +19,8 @@ class UserController extends Controller
     /**
      * Finds and displays a user entity.
      *
-     * @Route("/user/{id}", name="user_show")
+     * @Route("/u/{username}", name="user_show")
+     * @ParamConverter("username", options={"mapping": {"username": "user"}})
      * @Method("GET")
      */
     public function showAction(User $user)

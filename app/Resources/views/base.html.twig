@@ -47,7 +47,7 @@
                                 {% endif %}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="nav-link" href="{{ path('user_show', {id: app.user.id}) }}">Profile</a>
+                                <a class="nav-link" href="{{ path('user_show', {username: app.user.username}) }}">Profile</a>
                                 <a class="nav-link" href="{{ path('fos_user_security_logout') }}">Logout</a>
                             </div>
                         </li>
