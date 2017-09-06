@@ -10,7 +10,7 @@
                 <div class="col-md-4 column-{{ i }}">
                     {% if posts[i] is defined %}
                         {% for post in posts[i] %}
-                            <div class="card">
+                            <div class="card post-index-card">
                                 <div class="card-body">
                                     {% if post.category.name is defined %}
                                         <small class="float-right post-category">
@@ -37,7 +37,15 @@
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <a href="#" class="card-link">{{post.author.username}}</a>
+                                            <a href="{{ path('user_show', {'username': post.author.username}) }}">
+                                            {% if post.author.getProfilePicture is null %}
+                                                <img src="{{ asset(profile_picture_default) }}" alt="profile_picture" class="profile-picture"/>
+                                            {% else %}
+                                                <img src="{{ asset(profile_picture_directory ~ post.author.getProfilePicture) }}" alt="profile_picture" class="profile-picture"/>
+                                            {% endif %}
+                                            </a>
+                                            &nbsp;
+                                            <a href="{{ path('user_show', {'username': post.author.username}) }}" class="card-link">{{post.author.username}}</a>
                                         </div>
                                     </div>
                                 </div>

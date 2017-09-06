@@ -31,6 +31,10 @@ img.profile-picture {
     border-radius: 50%;
 }
 
+a {
+    text-decoration: none !important;
+}
+
 #body {
     padding-top: 50px;
     flex: 1 0 auto;
@@ -146,6 +150,10 @@ nav .nav-link {
 #post-list .card .post-category,
 #post-list .card .post-category a {
     color: #AAAAAA;
+}
+
+#post-list .card .profile-picture {
+    width: 30px;
 }
 
 #post-show .post-action {
