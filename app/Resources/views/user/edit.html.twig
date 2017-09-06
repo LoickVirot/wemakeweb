@@ -45,7 +45,7 @@
             </div>
         </div>
     </div>
-    <a href="{{ path('user_show', {id: user.id}) }}" class="btn btn-outline-secondary"><span class="oi oi-arrow-left"></span>&nbsp;Cancel</a>
+    <a href="{{ path('user_show', {'username': user.username}) }}" class="btn btn-outline-secondary"><span class="oi oi-arrow-left"></span>&nbsp;Cancel</a>
     <input type="submit" value="Edit" class="btn btn-primary"/>
     {{ form_end(edit_form) }}
     <hr>
