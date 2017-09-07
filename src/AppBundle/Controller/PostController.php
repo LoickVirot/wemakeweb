@@ -2,7 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Category;
 use AppBundle\Entity\Post;
+use AppBundle\Tests\Controller\CategoryControllerTest;
 use AppBundle\Utils\UrlUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -11,25 +13,31 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 /**
  * Post controller.
  *
- * @Route("post")
  */
 class PostController extends Controller
 {
     /**
      * Lists all post entities.
      *
-     * @Route("/", name="post_index")
+     * @Route("/post", name="post_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Category $category = null)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $posts = $em->getRepository('AppBundle:Post')->findAll();
+        if (is_null($category)) {
+            $posts = $em->getRepository('AppBundle:Post')->findAll();
+        } else {
+            $posts = $em->getRepository('AppBundle:Post')->findBy([
+                "category" => $category
+            ]);
+        }
 
         $column = 0;
         $sortedPosts = array();
@@ -44,13 +52,14 @@ class PostController extends Controller
 
         return $this->render('post/index.html.twig', array(
             'posts' => $sortedPosts,
+            'category' => $category
         ));
     }
 
     /**
      * Creates a new post entity.
      *
-     * @Route("/new", name="post_new")
+     * @Route("/post/new", name="post_new")
      * @Method({"GET", "POST"})
      * @Security("has_role('ROLE_USER')")
      */
@@ -85,7 +94,7 @@ class PostController extends Controller
     /**
      * Finds and displays a post entity.
      *
-     * @Route("/{slug}", name="post_show")
+     * @Route("/post/{slug}", name="post_show")
      * @ParamConverter("slug", options={"mapping": {"slug": "post"}})
      * @Method("GET")
      */
@@ -102,7 +111,7 @@ class PostController extends Controller
     /**
      * Displays a form to edit an existing post entity.
      *
-     * @Route("/{id}/edit", name="post_edit")
+     * @Route("/post/{id}/edit", name="post_edit")
      * @Method({"GET", "POST"})
      * @Security("has_role('ROLE_USER')")     
      */
@@ -146,7 +155,7 @@ class PostController extends Controller
     /**
      * Deletes a post entity.
      *
-     * @Route("/{id}", name="post_delete")
+     * @Route("/post/{id}", name="post_delete")
      * @Method("DELETE")
      * @Security("has_role('ROLE_USER')")     
      */
@@ -188,5 +197,19 @@ class PostController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+
+    /**
+     * @Route("/category/{slug}", name="post_category")
+     * @Method("GET")
+     * @ParamConverter("slug", options={"mapping": {"slug": "category"}})
+     *
+     * @param Category $category
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function postByCategoryAction(Category $category)
+    {
+        return $this->indexAction($category);
     }
 }

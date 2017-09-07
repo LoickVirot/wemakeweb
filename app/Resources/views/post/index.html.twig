@@ -2,7 +2,11 @@
 
     {% block body %}
     <div class="container page-content" id="post-list">
-        <h1>Last posts</h1>
+        {% if category is not null %}
+            <h1>Category: {{ category.name }}</h1>
+        {% else %}
+            <h1>Last posts</h1>
+        {% endif %}
         <p>Here is the latest posts.</p>
         <hr>
         <div class="row">
@@ -15,7 +19,7 @@
                                     {% if post.category.name is defined %}
                                         <small class="float-right post-category">
                                             <span class="oi oi-tags"></span>&nbsp;
-                                            <a href="#">{{ post.category.name }}</a>
+                                            <a href="{{ path('post_category', {'slug': post.category.slug}) }}">{{ post.category.name }}</a>
                                         </small>
                                     {% endif %}
                                     <h5 class="card-title">

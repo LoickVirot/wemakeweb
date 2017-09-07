@@ -38,11 +38,11 @@
                 <div class="post-tags float-right">
                     {% if post.category.name is defined %}
                         <div>
-                            <small><span class="oi oi-paperclip"></span>&nbsp;<a href="#">{{ post.category.name }}</a></small>
+                            <small class="text-secondary"><span class="oi oi-paperclip"></span>&nbsp;<a href="{{ path('post_category', {'slug': post.category.slug}) }}" class="text-secondary">{{ post.category.name }}</a></small>
                         </div>
                     {% endif %}
                     <div>
-                        <small><span class="oi oi-tags"></span>&nbsp;<a href="#">{{ post.tags }}</a></small>
+                        <small class="text-secondary"><span class="oi oi-tags"></span>&nbsp;{{ post.tags }}</small>
                     </div>
                 </div>
             </div>
