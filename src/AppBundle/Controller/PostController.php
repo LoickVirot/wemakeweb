@@ -3,12 +3,14 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Post;
+use AppBundle\Utils\UrlUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Post controller.
@@ -60,17 +62,18 @@ class PostController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Stop XSS insertion to content
-            $data = $form->getData();
-            $data->setContent(str_ireplace('<script>', '&lt;script&gt;', $data->getContent()));
-            $data->setContent(str_ireplace('</script>', '&lt;/script&gt;', $data->getContent()));
+            $post->setContent(str_ireplace('<script>', '&lt;script&gt;', $post->getContent()));
+            $post->setContent(str_ireplace('</script>', '&lt;/script&gt;', $post->getContent()));
 
-            $data->setAuthor($this->getUser());
+            $post->setSlug(uniqid() . '-' . UrlUtils::slugify($post->getTitle()));
+
+            $post->setAuthor($this->getUser());
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
             $em->flush();
 
-            return $this->redirectToRoute('post_show', array('id' => $post->getId()));
+            return $this->redirectToRoute('post_show', array('slug' => $post->getSlug()));
         }
 
         return $this->render('post/new.html.twig', array(
@@ -82,7 +85,8 @@ class PostController extends Controller
     /**
      * Finds and displays a post entity.
      *
-     * @Route("/{id}", name="post_show")
+     * @Route("/{slug}", name="post_show")
+     * @ParamConverter("slug", options={"mapping": {"slug": "post"}})
      * @Method("GET")
      */
     public function showAction(Post $post)

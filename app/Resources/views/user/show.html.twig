@@ -46,7 +46,7 @@
                     <article class="card">
                         <div class="card-body">
                             <h3 class="card-title">
-                                <a href="{{ path('post_show', {id: post.id}) }}">{{post.title}}</a>
+                                <a href="{{ path('post_show', {slug: post.slug}) }}">{{post.title}}</a>
                             </h3>
                             <div class="card-text">
                                 {{ post.content|truncate(150)|striptags }}

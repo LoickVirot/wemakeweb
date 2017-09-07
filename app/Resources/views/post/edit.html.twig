@@ -27,7 +27,7 @@
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
         <div class="float-right">
-            <a href="{{ path('post_show', {id: post.id}) }}" class="btn btn-outline-secondary">Cancel</a>                
+            <a href="{{ path('post_show', {slug: post.slug}) }}" class="btn btn-outline-secondary">Cancel</a>
             <input type="submit" value="Edit" class="btn btn-primary"/>
         </div>
     {{ form_end(edit_form) }}
