@@ -35,18 +35,16 @@
                                         <small>Created at {{ post.creationDate|date('d/m/Y') }}</small>
                                         {% endif %}
                                     </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <a href="{{ path('user_show', {'username': post.author.username}) }}">
-                                            {% if post.author.getProfilePicture is null %}
-                                                <img src="{{ asset(profile_picture_default) }}" alt="profile_picture" class="profile-picture"/>
-                                            {% else %}
-                                                <img src="{{ asset(profile_picture_directory ~ post.author.getProfilePicture) }}" alt="profile_picture" class="profile-picture"/>
-                                            {% endif %}
-                                            </a>
-                                            &nbsp;
-                                            <a href="{{ path('user_show', {'username': post.author.username}) }}" class="card-link">{{post.author.username}}</a>
-                                        </div>
+                                    <div>
+                                        <a href="{{ path('user_show', {'username': post.author.username}) }}">
+                                        {% if post.author.getProfilePicture is null %}
+                                            <img src="{{ asset(profile_picture_default) }}" alt="profile_picture" class="profile-picture"/>
+                                        {% else %}
+                                            <img src="{{ asset(profile_picture_directory ~ post.author.getProfilePicture) }}" alt="profile_picture" class="profile-picture"/>
+                                        {% endif %}
+                                        </a>
+                                        &nbsp;
+                                        <a href="{{ path('user_show', {'username': post.author.username}) }}" class="card-link">{{post.author.username}}</a>
                                     </div>
                                 </div>
                             </div>

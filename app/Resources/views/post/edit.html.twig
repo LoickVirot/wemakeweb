@@ -7,7 +7,11 @@
 {% block javascripts %}
     <script src="{{ asset('javascript/trumbowyg.min.js') }}"></script>
     <script>
+
+        $.trumbowyg.svgPath = '/';
         $(document).ready(function() {
+            $.trumbowyg.svgPath = "{{ asset('svg/trumbowyg/icons.svg') }}";
+
             $('#appbundle_post_content').trumbowyg({
                 btns: [['formatting'], 'strong', 'em', '|', 'link', 'insertImage'],
                 autogrow: true

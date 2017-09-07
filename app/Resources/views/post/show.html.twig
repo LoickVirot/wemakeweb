@@ -13,52 +13,50 @@
         {% endif %}    
         <a href="{{ app.request.headers.get('referer') }}" class="btn btn-outline-secondary"><span class="oi oi-arrow-left"></span>&nbsp;Back</a>
     </div>
-    <header class="post-header">
-        <div class="author">
-            <h3>L'auteur</h3>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="row">
-                        <div class="col-md-2">
-                            {% if post.author.getProfilePicture is null %}
-                                <img src="{{ asset(profile_picture_default) }}" alt="profile_picture" class="profile-picture"/>
-                            {% else %}
-                                <img src="{{ asset(profile_picture_directory ~ post.author.getProfilePicture) }}" alt="profile_picture" class="profile-picture"/>
-                            {% endif %}
-                        </div>
-                        <div class="col">
-                            <h5 class="username"><a href="{{ path('user_show', {'username': post.author.username}) }}">{{ post.author.username }}</a></h5>
-                            <p class="user-info">{{ post.author.posts|length }} posts</p>
-                        </div>
-                    </div>
+    <div class="author">
+        <h3>L'auteur</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="float-left">
+                    {% if post.author.getProfilePicture is null %}
+                        <img src="{{ asset(profile_picture_default) }}" alt="profile_picture" class="profile-picture"/>
+                    {% else %}
+                        <img src="{{ asset(profile_picture_directory ~ post.author.getProfilePicture) }}" alt="profile_picture" class="profile-picture"/>
+                    {% endif %}
+                </div>
+                <div class="">
+                    <h5 class="username"><a href="{{ path('user_show', {'username': post.author.username}) }}">{{ post.author.username }}</a></h5>
+                    <p class="user-info">{{ post.author.posts|length }} posts</p>
                 </div>
             </div>
         </div>
-        <hr>
-        <div class="post-info">
-            <div class="post-tags float-right">
-                {% if post.category.name is defined %}
-                    <div>
-                        <small><span class="oi oi-paperclip"></span>&nbsp;<a href="#">{{ post.category.name }}</a></small>
-                    </div>
-                {% endif %}
-                <div>
-                    <small><span class="oi oi-tags"></span>&nbsp;<a href="#">{{ post.tags }}</a></small>
-                </div>
-            </div>
-        </div>
-        <div class="post-title">
-            <h1>{{ post.title }}</h1>
-        </div>
-        <div class="post-date">
-            {% if post.lastUpdate is not null %}
-            <small class="post-date">Updated at {{ post.lastUpdate|date('d F Y') }}</small>    
-            {% else %}
-            <small class="post-date">Created at {{ post.creationDate|date('d F Y') }}</small>
-            {% endif %}
-        </div> 
-    </header>
+    </div>
+    <hr>
     <div class="post-content">
+        <header class="post-header">
+            <div class="post-info">
+                <div class="post-tags float-right">
+                    {% if post.category.name is defined %}
+                        <div>
+                            <small><span class="oi oi-paperclip"></span>&nbsp;<a href="#">{{ post.category.name }}</a></small>
+                        </div>
+                    {% endif %}
+                    <div>
+                        <small><span class="oi oi-tags"></span>&nbsp;<a href="#">{{ post.tags }}</a></small>
+                    </div>
+                </div>
+            </div>
+            <div class="post-title">
+                <h1>{{ post.title }}</h1>
+            </div>
+            <div class="post-date">
+                {% if post.lastUpdate is not null %}
+                <small class="post-date">Updated at {{ post.lastUpdate|date('d F Y') }}</small>
+                {% else %}
+                <small class="post-date">Created at {{ post.creationDate|date('d F Y') }}</small>
+                {% endif %}
+            </div>
+        </header>
         {{ post.content|raw }}
     </div>
     <hr>
@@ -66,18 +64,16 @@
         <h3>L'auteur</h3>
         <div class="row">
             <div class="col-md-4">
-                <div class="row">
-                    <div class="col-md-2">
-                        {% if post.author.getProfilePicture is null %}
-                            <img src="{{ asset(profile_picture_default) }}" alt="profile_picture" class="profile-picture"/>
-                        {% else %}
-                            <img src="{{ asset(profile_picture_directory ~ post.author.getProfilePicture) }}" alt="profile_picture" class="profile-picture"/>
-                        {% endif %}
-                    </div>
-                    <div class="col">
-                        <h5 class="username"><a href="{{ path('user_show', {'username': post.author.username}) }}">{{ post.author.username }}</a></h5>
-                        <p class="user-info">{{ post.author.posts|length }} posts</p>
-                    </div>
+                <div class="float-left">
+                    {% if post.author.getProfilePicture is null %}
+                        <img src="{{ asset(profile_picture_default) }}" alt="profile_picture" class="profile-picture"/>
+                    {% else %}
+                        <img src="{{ asset(profile_picture_directory ~ post.author.getProfilePicture) }}" alt="profile_picture" class="profile-picture"/>
+                    {% endif %}
+                </div>
+                <div class="">
+                    <h5 class="username"><a href="{{ path('user_show', {'username': post.author.username}) }}">{{ post.author.username }}</a></h5>
+                    <p class="user-info">{{ post.author.posts|length }} posts</p>
                 </div>
             </div>
         </div>
