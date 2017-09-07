@@ -49,9 +49,8 @@ a {
 }
 
 #main-header {
-    background: #FFFFFF url(../images/header.png) fixed;
+    background: #FFFFFF url('../images/header.png') fixed center;
     background-size: cover;
-    background-position: center;
     height: 100vh;
     width: 100%;
     display: flex;
