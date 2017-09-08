@@ -11,6 +11,8 @@ parameters:
     profile_picture_default: '%kernel.project_dir%/web/uploads/profile_pictures/default.jpg'
     profile_picture_directory_twig: 'uploads/profile_pictures/'
     profile_picture_default_twig: 'uploads/profile_pictures/default.jpg'
+    social:
+        twitter: WeMakeWebOrg
 
 framework:
     #esi: ~
@@ -47,6 +49,7 @@ twig:
     globals:
         profile_picture_directory: %profile_picture_directory_twig%
         profile_picture_default: %profile_picture_default_twig%
+        social: %social%
 
 # Doctrine Configuration
 doctrine:

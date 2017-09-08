@@ -29,6 +29,11 @@
                     <p class="user-info">{{ post.author.posts|length }} posts</p>
                 </div>
             </div>
+            <div class="col-md-8 text-right">
+                <a href="http://facebook.com/sharer.php?u={{ app.request.uri  }}" target="_blank" class="pop-up st-icon st-icon-facebook">Facebook</a>
+                <a href="http://twitter.com/intent/tweet?url={{ app.request.uri }}&text={{ post.title }}&via={{ social.twitter }}" target="_blank" class="pop-up st-icon st-icon-twitter">Twitter</a>
+                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.uri }}&title={{ post.title }}&summary={{ post.title }}&source=WeMakeWeb" target="_blank" class="pop-up st-icon st-icon-linkedin">LinkedIn</a>
+            </div>
         </div>
     </div>
     <hr>
@@ -76,7 +81,25 @@
                     <p class="user-info">{{ post.author.posts|length }} posts</p>
                 </div>
             </div>
+            <div class="col-md-8 text-right">
+                <a href="http://facebook.com/sharer.php?u={{ app.request.uri  }}" target="_blank" class="pop-up st-icon st-icon-facebook">Facebook</a>
+                <a href="http://twitter.com/intent/tweet?url={{ app.request.uri }}&text={{ post.title }}&via={{ social.twitter }}" target="_blank" class="pop-up st-icon st-icon-twitter">Twitter</a>
+                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ app.request.uri }}&title={{ post.title }}&summary={{ post.title }}&source=WeMakeWeb" target="_blank" class="pop-up st-icon st-icon-linkedin">LinkedIn</a>
+            </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+    $('.pop-up').on('click', function (e) {
+        e.preventDefault();
+        var newWindow=window.open($(this).attr('href'),'','height=400,width=600');
+        if (window.focus) {newWindow.focus()}
+        return false;
+    });
+</script>
+
 {% endblock %}
