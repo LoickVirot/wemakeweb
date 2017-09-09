@@ -55,7 +55,7 @@ class User extends BaseUser
     protected $website;
 
     /**
-     * @ORM\OneToMany(targetEntity="PostUser", mappedBy="user" )
+     * @ORM\OneToMany(targetEntity="PostUser", mappedBy="user")
      */
     private $postUsers;
 

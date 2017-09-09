@@ -36,6 +36,13 @@ class PostUser
     private $user;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="ip_adress", type="string", length=255, nullable=true)
+     */
+    private $ipAdress;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="readedAt", type="datetimetz")
@@ -154,5 +161,29 @@ class PostUser
     public function getNbReads()
     {
         return $this->nbReads;
+    }
+
+    /**
+     * Set ipAdress
+     *
+     * @param string $ipAdress
+     *
+     * @return PostUser
+     */
+    public function setIpAdress($ipAdress)
+    {
+        $this->ipAdress = $ipAdress;
+
+        return $this;
+    }
+
+    /**
+     * Get ipAdress
+     *
+     * @return string
+     */
+    public function getIpAdress()
+    {
+        return $this->ipAdress;
     }
 }

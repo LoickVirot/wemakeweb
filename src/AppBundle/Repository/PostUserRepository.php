@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Post;
 
 /**
  * PostUserRepository
@@ -10,4 +11,13 @@ namespace AppBundle\Repository;
  */
 class PostUserRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getNbReads(Post $post)
+    {
+        $query = $this->createQueryBuilder('pu')
+            ->select('sum(pu.nbReads)')
+            ->where('pu.post = :post')
+            ->setParameter('post', $post)
+            ;
+        return $query->getQuery()->getSingleScalarResult();
+    }
 }

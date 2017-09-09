@@ -99,19 +99,28 @@ class PostController extends Controller
      * @ParamConverter("slug", options={"mapping": {"slug": "post"}})
      * @Method("GET")
      */
-    public function showAction(Post $post)
+    public function showAction(Request $request, Post $post)
     {
         // Get or create association between post and actual user
         $em = $this->getDoctrine()->getManager();
-        $postUser = $em->getRepository('AppBundle:PostUser')->findOneBy([
+        $params = [
             'post' => $post,
-            'user' => $this->getUser()
-        ]);
+        ];
+        if (is_null($this->getUser())) {
+            $params['ipAdress'] = $request->getClientIp();
+        } else {
+            $params['user'] = $this->getUser();
+        }
+        $postUser = $em->getRepository('AppBundle:PostUser')->findOneBy($params);
 
         if ($postUser == null) {
             $postUser = new PostUser();
             $postUser->setPost($post);
-            $postUser->setUser($this->getUser());
+            if (is_null($this->getUser())) {
+                $postUser->setIpAdress($request->getClientIp());
+            } else {
+                $postUser->setUser($this->getUser());
+            }
             $postUser->setReadedAt(new \DateTime());
             $postUser->setNbReads($postUser->getNbReads() + 1);
         } else {
@@ -127,11 +136,13 @@ class PostController extends Controller
         $em->persist($postUser);
         $em->flush();
 
+        $nbViews = $em->getRepository('AppBundle:PostUser')->getNbReads($post);
+
         $deleteForm = $this->createDeleteForm($post);
 
         return $this->render('post/show.html.twig', array(
             'post' => $post,
-            'postUser' => $postUser,
+            'nbViews' => $nbViews,
             'delete_form' => $deleteForm->createView(),
         ));
     }
