@@ -16,42 +16,42 @@
                         {% for post in posts[i] %}
                             <div class="card post-index-card">
                                 <div class="card-body">
-                                    {% if post.category.name is defined %}
+                                    {% if post.entity.category.name is defined %}
                                         <small class="float-right post-category">
                                             <span class="oi oi-tags"></span>&nbsp;
-                                            <a href="{{ path('post_category', {'slug': post.category.slug}) }}">{{ post.category.name }}</a>
+                                            <a href="{{ path('post_category', {'slug': post.entity.category.slug}) }}">{{ post.entity.category.name }}</a>
                                         </small>
                                     {% endif %}
                                     <h5 class="card-title">
-                                        <a href="{{ path('post_show', {slug: post.slug}) }}" class="card-link">
-                                            {{ post.title }}
+                                        <a href="{{ path('post_show', {slug: post.entity.slug}) }}" class="card-link">
+                                            {{ post.entity.title }}
                                         </a>
                                     </h5>
                                     <div class="card-text">
-                                        {{ post.content|truncate(50)|striptags }}
+                                        {{ post.entity.content|truncate(50)|striptags }}
                                     </div>
-                                    <div class="card-text">
-                                        {{ post.content|truncate(50)|striptags }}
+                                    <div class="card-text text-secondary">
+                                        <small>{{ post.nbViews }} views</small>
                                     </div>
                                 </div>
                                 <div class="card-footer">
                                     <div class="float-right">
-                                        {% if post.lastUpdate is not null %}
-                                        <small>Updated at {{ post.lastUpdate|date('d/m/Y') }}</small>
+                                        {% if post.entity.lastUpdate is not null %}
+                                        <small>Updated at {{ post.entity.lastUpdate|date('d/m/Y') }}</small>
                                         {% else %}
-                                        <small>Created at {{ post.creationDate|date('d/m/Y') }}</small>
+                                        <small>Created at {{ post.entity.creationDate|date('d/m/Y') }}</small>
                                         {% endif %}
                                     </div>
                                     <div>
-                                        <a href="{{ path('user_show', {'username': post.author.username}) }}">
-                                        {% if post.author.getProfilePicture is null %}
+                                        <a href="{{ path('user_show', {'username': post.entity.author.username}) }}">
+                                        {% if post.entity.author.getProfilePicture is null %}
                                             <img src="{{ asset(profile_picture_default) }}" alt="profile_picture" class="profile-picture"/>
                                         {% else %}
-                                            <img src="{{ asset(profile_picture_directory ~ post.author.getProfilePicture) }}" alt="profile_picture" class="profile-picture"/>
+                                            <img src="{{ asset(profile_picture_directory ~ post.entity.author.getProfilePicture) }}" alt="profile_picture" class="profile-picture"/>
                                         {% endif %}
                                         </a>
                                         &nbsp;
-                                        <a href="{{ path('user_show', {'username': post.author.username}) }}" class="card-link">{{post.author.username}}</a>
+                                        <a href="{{ path('user_show', {'username': post.entity.author.username}) }}" class="card-link">{{post.entity.author.username}}</a>
                                     </div>
                                 </div>
                             </div>

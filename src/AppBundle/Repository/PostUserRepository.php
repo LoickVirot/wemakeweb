@@ -18,6 +18,11 @@ class PostUserRepository extends \Doctrine\ORM\EntityRepository
             ->where('pu.post = :post')
             ->setParameter('post', $post)
             ;
-        return $query->getQuery()->getSingleScalarResult();
+        $result = $query->getQuery()->getSingleScalarResult();
+
+        if (is_null($result)) {
+            return 0;
+        }
+        return $result;
     }
 }

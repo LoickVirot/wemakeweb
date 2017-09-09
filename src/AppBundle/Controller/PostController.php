@@ -43,7 +43,8 @@ class PostController extends Controller
         $column = 0;
         $sortedPosts = array();
         foreach ($posts as $post) {
-            $sortedPosts[$column][] = $post;
+            $sortedPosts[$column][$post->getId()]['entity'] = $post;
+            $sortedPosts[$column][$post->getId()]['nbViews'] = $em->getRepository('AppBundle:PostUser')->getNbReads($post);
             if ($column == 2) {
                 $column = 0;
             } else {

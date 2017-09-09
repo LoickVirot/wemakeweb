@@ -25,11 +25,19 @@ class UserController extends Controller
      */
     public function showAction(User $user)
     {
+        $em = $this->getDoctrine()->getManager();
+        $posts = [];
+        foreach ($user->getPosts() as $post) {
+            $posts[$post->getId()]['entity'] = $post;
+            $posts[$post->getId()]['nbviews'] = $em->getRepository('AppBundle:PostUser')->getNbReads($post);
+        }
+
         $deleteForm = $this->createDeleteForm($user);
 
         return $this->render('user/show.html.twig', array(
             'user' => $user,
-            'delete_form' => $deleteForm->createView(),
+            'posts' => $posts,
+            'delete_form' => $deleteForm->createView()
         ));
     }
 
