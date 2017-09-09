@@ -16,12 +16,6 @@
                         {% for post in posts[i] %}
                             <div class="card post-index-card">
                                 <div class="card-body">
-                                    {% if post.entity.category.name is defined %}
-                                        <small class="float-right post-category">
-                                            <span class="oi oi-tags"></span>&nbsp;
-                                            <a href="{{ path('post_category', {'slug': post.entity.category.slug}) }}">{{ post.entity.category.name }}</a>
-                                        </small>
-                                    {% endif %}
                                     <h5 class="card-title">
                                         <a href="{{ path('post_show', {slug: post.entity.slug}) }}" class="card-link">
                                             {{ post.entity.title }}
@@ -30,8 +24,18 @@
                                     <div class="card-text">
                                         {{ post.entity.content|truncate(50)|striptags }}
                                     </div>
-                                    <div class="card-text text-secondary">
-                                        <small>{{ post.nbViews }} views</small>
+                                    <div class="card-text row">
+                                        <div class="col">
+                                            <small class="text-secondary">{{ post.nbViews }} views</small>
+                                        </div>
+                                        <div class="col text-right">
+                                            {% if post.entity.category.name is defined %}
+                                                <small class="post-category">
+                                                    <span class="oi oi-tags"></span>&nbsp;
+                                                    <a href="{{ path('post_category', {'slug': post.entity.category.slug}) }}">{{ post.entity.category.name }}</a>
+                                                </small>
+                                            {% endif %}
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="card-footer">
