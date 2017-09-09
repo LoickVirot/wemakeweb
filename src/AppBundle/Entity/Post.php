@@ -72,6 +72,11 @@ class Post
      */
     private $tags;
 
+    /**
+     * @ORM\OneToMany(targetEntity="PostUser", mappedBy="post" )
+     */
+    private $postUsers;
+
     public function __construct() {
         $this->creationDate = new \DateTime();
     }
@@ -280,5 +285,39 @@ class Post
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Add postUser
+     *
+     * @param \AppBundle\Entity\PostUser $postUser
+     *
+     * @return Post
+     */
+    public function addPostUser(\AppBundle\Entity\PostUser $postUser)
+    {
+        $this->postUsers[] = $postUser;
+
+        return $this;
+    }
+
+    /**
+     * Remove postUser
+     *
+     * @param \AppBundle\Entity\PostUser $postUser
+     */
+    public function removePostUser(\AppBundle\Entity\PostUser $postUser)
+    {
+        $this->postUsers->removeElement($postUser);
+    }
+
+    /**
+     * Get postUsers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPostUsers()
+    {
+        return $this->postUsers;
     }
 }

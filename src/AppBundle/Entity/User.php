@@ -54,6 +54,11 @@ class User extends BaseUser
     */
     protected $website;
 
+    /**
+     * @ORM\OneToMany(targetEntity="PostUser", mappedBy="user" )
+     */
+    private $postUsers;
+
     public function __construct()
     {
         parent::__construct();
@@ -212,5 +217,39 @@ class User extends BaseUser
     public function getProfilePicture()
     {
         return $this->profilePicture;
+    }
+
+    /**
+     * Add postUser
+     *
+     * @param \AppBundle\Entity\PostUser $postUser
+     *
+     * @return User
+     */
+    public function addPostUser(\AppBundle\Entity\PostUser $postUser)
+    {
+        $this->postUsers[] = $postUser;
+
+        return $this;
+    }
+
+    /**
+     * Remove postUser
+     *
+     * @param \AppBundle\Entity\PostUser $postUser
+     */
+    public function removePostUser(\AppBundle\Entity\PostUser $postUser)
+    {
+        $this->postUsers->removeElement($postUser);
+    }
+
+    /**
+     * Get postUsers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPostUsers()
+    {
+        return $this->postUsers;
     }
 }

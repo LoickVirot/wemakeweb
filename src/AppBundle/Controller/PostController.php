@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Post;
+use AppBundle\Entity\PostUser;
 use AppBundle\Tests\Controller\CategoryControllerTest;
 use AppBundle\Utils\UrlUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -100,6 +101,32 @@ class PostController extends Controller
      */
     public function showAction(Post $post)
     {
+        // Get or create association between post and actual user
+        $em = $this->getDoctrine()->getManager();
+        $postUser = $em->getRepository('AppBundle:PostUser')->findOneBy([
+            'post' => $post,
+            'user' => $this->getUser()
+        ]);
+
+        if ($postUser == null) {
+            $postUser = new PostUser();
+            $postUser->setPost($post);
+            $postUser->setUser($this->getUser());
+            $postUser->setReadedAt(new \DateTime());
+            $postUser->setNbReads($postUser->getNbReads() + 1);
+        } else {
+            // Check if last read is before 30 minutes
+            $time = new \DateTime();
+            $time->modify('-15 minutes');
+            if ($postUser->getReadedAt()->getTimestamp() < $time->getTimestamp()) {
+                $postUser->setReadedAt(new \DateTime());
+                $postUser->setNbReads($postUser->getNbReads() + 1);
+            }
+        }
+
+        $em->persist($postUser);
+        $em->flush();
+
         $deleteForm = $this->createDeleteForm($post);
 
         return $this->render('post/show.html.twig', array(
