@@ -131,6 +131,7 @@ class PostController extends Controller
 
         return $this->render('post/show.html.twig', array(
             'post' => $post,
+            'postUser' => $postUser,
             'delete_form' => $deleteForm->createView(),
         ));
     }

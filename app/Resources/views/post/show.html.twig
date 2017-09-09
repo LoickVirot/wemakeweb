@@ -55,11 +55,14 @@
                 <h1>{{ post.title }}</h1>
             </div>
             <div class="post-date">
+                <small class="post-date">
                 {% if post.lastUpdate is not null %}
-                <small class="post-date">Updated at {{ post.lastUpdate|date('d F Y') }}</small>
+                    Updated at {{ post.lastUpdate|date('d F Y') }}
                 {% else %}
-                <small class="post-date">Created at {{ post.creationDate|date('d F Y') }}</small>
+                    Created at {{ post.creationDate|date('d F Y') }}
                 {% endif %}
+                - {{ postUser.nbReads }} views
+                </small>
             </div>
         </header>
         {{ post.content|raw }}
