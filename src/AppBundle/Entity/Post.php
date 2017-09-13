@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 use AppBundle\Utils\UrlUtils;
 
 /**
@@ -23,7 +24,8 @@ class Post
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="posts", cascade={"persist"})
+     * @JoinColumn(name="author_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $author;
 
@@ -73,7 +75,7 @@ class Post
     private $tags;
 
     /**
-     * @ORM\OneToMany(targetEntity="PostUser", mappedBy="post" )
+     * @ORM\OneToMany(targetEntity="PostUser", mappedBy="post", cascade="remove")
      */
     private $postUsers;
 
