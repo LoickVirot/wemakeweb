@@ -13,30 +13,30 @@
                     <div class="card-body">
                         <h2>{{ user.username }}</h2>
                         <dl class="row">
-                            <dt class="col-sm-4">Email</dt>
+                            <dt class="col-sm-4">{{ "Email"|trans }}</dt>
                             <dd class="col-sm-8">{{ user.email }}</dd>
                             {% if user.firstname is not null %}
-                                <dt class="col-sm-4">Firstname</dt>
+                                <dt class="col-sm-4">{{ "Firstname"|trans }}</dt>
                                 <dd class="col-sm-8">{{ user.firstname }}</dd>
                             {% endif %}
                             {% if user.lastname is not null %}
-                                <dt class="col-sm-4">Lastname</dt>
+                                <dt class="col-sm-4">{{ "Lastname"|trans }}</dt>
                                 <dd class="col-sm-8">{{ user.lastname }}</dd>
                             {% endif %}
                         </dl>
-                        <h5>Social</h5>
+                        <h5>{{ "page.user.edit.social"|trans }}</h5>
                         <dl class="row">
                             {% if user.twitter is not null %}
                                 <dt class="col-sm-4">Twitter</dt>
                                 <dd class="col-sm-8"><a href="http://twitter.com/{{user.twitter}}" target="_blank">@{{ user.twitter }}</a></dd>
                             {% endif %}
                             {% if user.website is not null %}
-                                <dt class="col-sm-4">Website</dt>
+                                <dt class="col-sm-4">{{ "Website"|trans }}</dt>
                                 <dd class="col-sm-8"><a href="{{ user.website }}" target="_blank">{{ user.website }}</a></dd>
                             {% endif %}
                         </dl>
                         {% if app.user == user %}
-                            <a href="{{ path('user_edit', {id: user.id}) }}"><span class="oi oi-pencil"></span>&nbsp;Edit profile</a>
+                            <a href="{{ path('user_edit', {id: user.id}) }}"><span class="oi oi-pencil"></span>&nbsp;{{ "page.user.show.edit_profile"|trans }}</a>
                         {% endif %}
                     </div>
                 </div>
@@ -65,13 +65,13 @@
                             <div class="row">
                                 <div class="col text-secondary">
                                     {% if post.entity.lastUpdate is not null %}
-                                        <small class="post-date">Updated at {{ post.entity.lastUpdate|date('d F Y') }}</small>
+                                        <small class="post-date">{{ "common.updated_at"|trans }} {{ post.entity.lastUpdate|date('d/m/Y') }}</small>
                                     {% else %}
-                                        <small class="post-date">Created at {{ post.entity.creationDate|date('d F Y') }}</small>
+                                        <small class="post-date">{{ "common.created_at"|trans }} {{ post.entity.creationDate|date('d/m/Y') }}</small>
                                     {% endif %}
                                 </div>
                                 <div class="col text-right">
-                                    <small>{{ post.nbviews }} views</small>
+                                    <small>{{ post.nbviews }} {{ "common.view"|transchoice(post.nbviews) }}</small>
                                 </div>
                             </div>
                         </div>

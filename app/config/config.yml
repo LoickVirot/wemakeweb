@@ -6,7 +6,7 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
+    locale: fr
     profile_picture_directory: '%kernel.project_dir%/web/uploads/profile_pictures'
     profile_picture_default: '%kernel.project_dir%/web/uploads/profile_pictures/default.jpg'
     profile_picture_directory_twig: 'uploads/profile_pictures/'
@@ -16,7 +16,7 @@ parameters:
 
 framework:
     #esi: ~
-    #translator: { fallbacks: ['%locale%'] }
+    translator: { fallbacks: ['%locale%'] }
     translator: ~
     secret: '%secret%'
     router:

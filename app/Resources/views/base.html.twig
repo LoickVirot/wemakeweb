@@ -23,20 +23,20 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="{{ prefix_static_link ~ "/"}}">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="{{ prefix_static_link ~ "/"}}">{{ "base.header.menu.home"|trans }} <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('post_index') }}">blog</a>
+                            <a class="nav-link" href="{{ path('post_index') }}">{{ "base.header.menu.collaborative_blog"|trans }}</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
                         {% if is_granted('ROLE_USER') %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('post_new') }}">Write</a>
+                            <a class="nav-link" href="{{ path('post_new') }}">{{ "base.header.menu.write"|trans }}</a>
                         </li>
                         {% if is_granted('ROLE_ADMIN') %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('easyadmin') }}">Admin</a>
+                            <a class="nav-link" href="{{ path('easyadmin') }}">{{ "base.header.menu.admin"|trans }}</a>
                         </li>
                         {% endif %}
                         <li class="nav-item dropdown">
@@ -48,16 +48,16 @@
                                 {% endif %}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="nav-link" href="{{ path('user_show', {username: app.user.username}) }}">Profile</a>
-                                <a class="nav-link" href="{{ path('fos_user_security_logout') }}">Logout</a>
+                                <a class="nav-link" href="{{ path('user_show', {username: app.user.username}) }}">{{ "base.header.menu.profile"|trans }}</a>
+                                <a class="nav-link" href="{{ path('fos_user_security_logout') }}">{{ "base.header.menu.logout"|trans }}</a>
                             </div>
                         </li>
                         {% else %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ path('fos_user_security_login') }}">Login</a>
+                                <a class="nav-link" href="{{ path('fos_user_security_login') }}">{{ "base.header.menu.login"|trans }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ path('fos_user_registration_register') }}">Register</a>
+                                <a class="nav-link" href="{{ path('fos_user_registration_register') }}">{{ "base.header.menu.register"|trans }}</a>
                             </li>
                         {% endif %}
                     </ul>
@@ -85,8 +85,8 @@
         </div>
         <footer id="main-footer" class="navbar-fixed-bottom">
             <div class="container text-center">
-                Created with <img src="https://abs.twimg.com/emoji/v1/72x72/2764.png" alt="love" width="20"> by the WeMakeWeb community - All rights reserved -
-                <a href="{{ prefix_static_link ~ "/terms"}}">Terms & conditions</a>
+                {{ "base.footer.text"|trans|raw }}
+                <a href="{{ prefix_static_link ~ "/terms"}}">{{ "base.footer.terms"|trans }}</a>
             </div>
         </footer>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

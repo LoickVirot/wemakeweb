@@ -1,0 +1,61 @@
+base:
+    header:
+        menu:
+            home: Accueil
+            collaborative_blog: Blog collaboratif
+            login: Connexion
+            register: S'inscrire
+            write: écrire un article
+            admin: Admin
+            profile: Profil
+            logout: Déconnexion
+    footer:
+        text: Créé avec <img src="https://abs.twimg.com/emoji/v1/72x72/2764.png" alt="amour" width="20"> par la communauté WeMakeWeb - Tous droits réservés -
+        terms: Conditions d'utilisation
+
+page:
+    post:
+        index:
+            title: Derniers articles
+            desc: Voici les derniers articles publiés
+        show:
+            author: L'auteur
+        edit:
+            title: Modifier un article
+        new:
+            title: Créer un article
+    user:
+        edit:
+            info: Informations
+            social: Réseaux sociaux
+            profile_picture:
+                title: Photo de profil
+                upload: Choisir une photo
+            delete:
+                title: Supprimer le compte
+                text: Attention, cette action est irréversible. Cela supprimera définitivement vos informations et vos articles
+                button: Supprimer le compte
+        show:
+            edit_profile: Modifier le profil
+
+common:
+    view: vue | vues
+    updated_at: Mis à jour le
+    created_at: Créé le
+    post: article | articles
+    action:
+        back: Retour
+        delete: Supprimer
+        edit: Modifier
+        cancel: Annuler
+        create: Créer
+
+Title: Titre
+Content: Contenu
+Category: Catégorie
+Tags: Tags
+Firstname: Prénom
+Lastname: Nom
+Website: Site web
+Email: Email
+Twitter: Twitter

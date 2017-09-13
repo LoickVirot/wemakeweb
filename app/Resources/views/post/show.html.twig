@@ -6,15 +6,15 @@
         {% if app.user == post.author or is_granted('ROLE_ADMIN') %}    
             {{ form_start(delete_form) }}        
             <div class="btn-group float-right">
-                <button type="submit" class="btn btn-outline-danger"><span class="oi oi-trash"></span>&nbsp;Delete</button>                
-                <a href="{{ path('post_edit', { 'id': post.id }) }}" class="btn btn-outline-primary"><span class="oi oi-pencil"></span>&nbsp;Edit</a>        
+                <button type="submit" class="btn btn-outline-danger btn-sm"><span class="oi oi-trash"></span>&nbsp;{{ "common.action.delete"|trans }}</button>
+                <a href="{{ path('post_edit', { 'id': post.id }) }}" class="btn btn-outline-primary btn-sm"><span class="oi oi-pencil"></span>&nbsp;{{ "common.action.edit"|trans }}</a>
             </div>
             {{ form_end(delete_form) }}
         {% endif %}    
-        <a href="{{ app.request.headers.get('referer') }}" class="btn btn-outline-secondary"><span class="oi oi-arrow-left"></span>&nbsp;Back</a>
+        <a href="{{ app.request.headers.get('referer') }}" class="btn btn-outline-secondary btn-sm"><span class="oi oi-arrow-left"></span>&nbsp;{{ "common.action.back"|trans }}</a>
     </div>
     <div class="author">
-        <h3>L'auteur</h3>
+        <h3>{{ "page.post.show.author"|trans }}</h3>
         <div class="row">
             <div class="col-md-4">
                 <div class="float-left">
@@ -26,7 +26,7 @@
                 </div>
                 <div class="">
                     <h5 class="username"><a href="{{ path('user_show', {'username': post.author.username}) }}">{{ post.author.username }}</a></h5>
-                    <p class="user-info">{{ post.author.posts|length }} posts</p>
+                    <p class="user-info">{{ post.author.posts|length }} {{ "common.post"|transchoice(post.author.posts|length) }}</p>
                 </div>
             </div>
             <div class="col-md-8 text-right">
@@ -57,11 +57,11 @@
             <div class="post-date">
                 <small class="post-date">
                 {% if post.lastUpdate is not null %}
-                    Updated at {{ post.lastUpdate|date('d F Y') }}
+                    {{ "common.updated_at"|trans }} {{ post.lastUpdate|date('d F Y') }}
                 {% else %}
-                    Created at {{ post.creationDate|date('d F Y') }}
+                    {{ "common.created_at"|trans }} {{ post.creationDate|date('d F Y') }}
                 {% endif %}
-                - {{ nbViews }} views
+                - {{ nbViews }} {{ "common.view"|transchoice(nbViews) }}
                 </small>
             </div>
         </header>

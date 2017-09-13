@@ -20,13 +20,12 @@
 
 {% block body %}
 <div class="container page-content">
-    <h1>Post creation</h1>
-    
+    <h1>{{ "page.post.new.title"|trans }}</h1>
     {{ form_start(form) }}
         {{ form_widget(form) }}
         <div class="float-right">
-            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-outline-secondary">Cancel</a>
-            <input type="submit" value="Create" class="btn btn-primary"/>            
+            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-outline-secondary">{{ "common.action.cancel"|trans }}</a>
+            <input type="submit" value="{{ "common.action.create"|trans }}" class="btn btn-primary"/>
         </div>
     {{ form_end(form) }}
 

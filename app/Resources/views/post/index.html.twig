@@ -5,9 +5,9 @@
         {% if category is not null %}
             <h1>Category: {{ category.name }}</h1>
         {% else %}
-            <h1>Last posts</h1>
+            <h1>{{ "page.post.index.title"|trans }}</h1>
         {% endif %}
-        <p>Here is the latest posts.</p>
+        <p>{{ "page.post.index.desc"|trans }}</p>
         <hr>
         <div class="row">
             {% for i in 0..2 %}
@@ -34,16 +34,16 @@
                                             {% endif %}
                                         </div>
                                         <div class="col text-right">
-                                            <small class="text-secondary">{{ post.nbViews }} views</small>
+                                            <small class="text-secondary">{{ post.nbViews }} {{ "common.view"|transchoice(post.nbViews) }}</small>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-footer">
                                     <div class="float-right">
                                         {% if post.entity.lastUpdate is not null %}
-                                        <small>Updated at {{ post.entity.lastUpdate|date('d/m/Y') }}</small>
+                                        <small>{{ "common.updated_at"|trans }} {{ post.entity.lastUpdate|date('d/m/Y') }}</small>
                                         {% else %}
-                                        <small>Created at {{ post.entity.creationDate|date('d/m/Y') }}</small>
+                                        <small>{{ "common.created_at"|trans }} {{ post.entity.creationDate|date('d/m/Y') }}</small>
                                         {% endif %}
                                     </div>
                                     <div>
