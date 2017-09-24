@@ -50,6 +50,7 @@ twig:
         profile_picture_directory: %profile_picture_directory_twig%
         profile_picture_default: %profile_picture_default_twig%
         social: %social%
+    exception_controller: twig.controller.exception:showAction
 
 # Doctrine Configuration
 doctrine:

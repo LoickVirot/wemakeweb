@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Twig\Environment;
 
 class DefaultController extends Controller
 {
@@ -27,6 +27,6 @@ class DefaultController extends Controller
             return $this->render('base.html.twig', ['staticcontent' => $staticPage->getContent()]);
         }
 
-        throw new NotFoundHttpException('Route not found');
+        throw $this->createNotFoundException('Page not found');
     }
 }

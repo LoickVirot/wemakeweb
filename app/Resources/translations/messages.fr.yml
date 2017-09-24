@@ -50,6 +50,15 @@ common:
         cancel: Annuler
         create: Créer
 
+error:
+    500:
+        title: Désolé. C'est de notre faute.
+        text: Les développeurs ont laissé passer un bug sur cette page.
+        report: Si vous le souhaitez, vous pouvez <a href="https://github.com/LoickVirot/wemakeweb/issues/new" target="_blank">signaler ce bug</a>
+    404:
+        title: Ho no
+        text: La page recherchée est introuvable.
+
 Title: Titre
 Content: Contenu
 Category: Catégorie

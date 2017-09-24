@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container page-content">
+        <h1>{{ "error.500.title"|trans }}</h1>
+        <p>
+            {{ "error.500.text"|trans }}
+        </p>
+        <p>
+            {{ "error.500.report"|trans|raw }}
+        </p>
+    </div>
+
+{% endblock %}
