@@ -23,9 +23,14 @@ git@github.com:LoickVirot/wemakeweb.git
 composer install 
 ```
 
-- Generate database
+- Update database schema
 ```bash
-php bin/console doctrine:database:create
+php bin\console doctrine:schema:update --dump-sql -f
+```
+
+- Install assets
+```bash
+php bin\console assets:install
 ```
 
 Don't forget to setting up [cache permissions](https://symfony.com/doc/current/setup/file_permissions.html)

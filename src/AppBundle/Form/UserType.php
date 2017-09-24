@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
@@ -17,7 +18,7 @@ class UserType extends AbstractType
         $builder
             ->add('profilePicture', FileType::class, [
                 'required' => false,
-                'data_class' => null
+                'data_class' => null,
             ])
             ->add('firstname')
             ->add('lastname')
