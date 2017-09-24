@@ -54,14 +54,18 @@ class UserController extends Controller
         if ($this->getUser() != $user) {
             $session = new Session();
             $session->getFlashBag()->add('danger', 'access denied');
-            return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
+            return $this->redirectToRoute('user_show', ['username' => $user->getUsername()]);
         }
         $deleteForm = $this->createDeleteForm($user);
         $editForm = $this->createForm('AppBundle\Form\UserType', $user);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            if (is_null($editForm->getData()->getProfilePicture())) {
+                $user->setProfilePicture($oldProfilePicture);
+            }
             $picture = $user->getProfilePicture();
+
             if (is_null($oldProfilePicture) or ($picture != $oldProfilePicture)) {
                 $pictureName = md5(uniqid()).'.'.$picture->guessExtension();
 
