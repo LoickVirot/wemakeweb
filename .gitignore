@@ -16,5 +16,6 @@
 /vendor/
 /web/bundles/
 /web/uploads/profile_pictures/
+!/web/uploads/profile_pictures/default.jpg
 .idea/
 *.php~
