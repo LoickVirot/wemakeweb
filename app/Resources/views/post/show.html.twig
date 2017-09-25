@@ -46,9 +46,6 @@
                             <small class="text-secondary"><span class="oi oi-paperclip"></span>&nbsp;<a href="{{ path('post_category', {'slug': post.category.slug}) }}" class="text-secondary">{{ post.category.name }}</a></small>
                         </div>
                     {% endif %}
-                    <div>
-                        <small class="text-secondary"><span class="oi oi-tags"></span>&nbsp;{{ post.tags }}</small>
-                    </div>
                 </div>
             </div>
             <div class="post-title">
@@ -66,6 +63,9 @@
             </div>
         </header>
         {{ post.content|raw }}
+        <div>
+            <small class="text-secondary"><span class="oi oi-tags"></span>&nbsp;{{ post.tags }}</small>
+        </div>
     </div>
     <hr>
     <div class="author">
