@@ -10,7 +10,7 @@ base:
             profile: Profil
             logout: Déconnexion
     footer:
-        text: Créé avec <img src="https://abs.twimg.com/emoji/v1/72x72/2764.png" alt="amour" width="20"> par la communauté WeMakeWeb - Tous droits réservés -
+        text: Créé avec ♥ par la communauté WeMakeWeb - Tous droits réservés -
         terms: Conditions d'utilisation
 
 page:
@@ -37,6 +37,28 @@ page:
                 button: Supprimer le compte
         show:
             edit_profile: Modifier le profil
+        login:
+            title: Se connecter
+            username: Nom d'utilisateurs
+            password: Mot de passe
+            remember_me: Se souvenir de moi
+            submit: Se connecter
+            forgot: Mot de passe oublié
+        register:
+            title: Créer un compte
+            terms: En créant un compte, vous acceptez les <a href="%url%" target="_blank">conditions générales d'utilisation</a>
+            submit: Créer un compte
+            already: Vous possédez un compte ?
+        resetting:
+            check_email: "Un e-mail a été envoyé. Il contient un lien sur lequel il vous faudra cliquer pour réinitialiser votre mot de passe.\n\nRemarque : Vous ne pouvez demander un nouveau mot de passe que toutes les 2 heures.\n\nSi vous ne recevez pas un email, vérifiez votre dossier spam ou essayez à nouveau."
+            request:
+                title: Mot de passe oublié
+                username: Nom d'utilisateur
+                submit: Envoyer un e-mail
+            confirm:
+                message: Vous avez bien changé votre mot de passe
+                seeprofile: Votre profil
+
 
 common:
     view: vue | vues

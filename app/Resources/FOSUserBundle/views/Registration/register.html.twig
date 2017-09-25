@@ -1,6 +1,5 @@
 {% block title %}Register{% endblock %}
 
-{% trans_default_domain 'FOSUserBundle' %}
 {% extends "::base.html.twig" %}
 {% block body %}
     <div class="container" id="register">
@@ -8,21 +7,18 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h2>Register</h2>
-                        {% trans_default_domain 'FOSUserBundle' %}
-                        
+                        <h2>{{ "page.user.register.title"|trans }}</h2>
                         {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
                             {{ form_widget(form) }}
                             <div>
-                                <input type="submit" value="{{ 'registration.submit'|trans }}" class="btn btn-primary"/>
+                                <input type="submit" value="{{ 'page.user.register.submit'|trans }}" class="btn btn-primary"/>
                             </div>
                         {{ form_end(form) }}
                         <hr>
                         <div class="alert alert-info">
-                            By creating an account, you agree and accept the <a href="{{ prefix_static_link ~ "/terms"}}" target="_blank">terms & conditions</a>
-
+                            {{ "page.user.register.terms"|trans({"%url%": prefix_static_link ~ "/terms"})|raw }}
                         </div>
-                        <p class="text-center">Already an account ? <a href="{{ path('fos_user_security_login') }}">Login</a></p>
+                        <p class="text-center">{{ "page.user.register.already"|trans }} <a href="{{ path('fos_user_security_login') }}">{{ "page.user.login.title"|trans }}</a></p>
                     </div>
                 </div>
             </div>
