@@ -134,6 +134,13 @@ class PostController extends Controller
             }
         }
 
+        //manage tags
+        $tags = $post->getTags();
+        $tags = explode(',', $tags);
+        $tags = implode(', ', $tags);
+        $post->setTags($tags);
+
+
         $em->persist($postUser);
         $em->flush();
 
