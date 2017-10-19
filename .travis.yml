@@ -38,7 +38,7 @@ install:
   - cp app/config/parameters.yml.travis app/config/parameters.yml
   - composer install
   - php bin/console doctrine:schema:update --force --env=test
-  - php bin/console doctrine:fixture:load --env=test
+  - php bin/console doctrine:fixture:load --env=test --no-interaction 
 
 # Run script
 script:
