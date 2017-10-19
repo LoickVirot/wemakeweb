@@ -39,7 +39,7 @@ page:
             edit_profile: Modifier le profil
         login:
             title: Se connecter
-            username: Nom d'utilisateurs
+            username: Nom d'utilisateur
             password: Mot de passe
             remember_me: Se souvenir de moi
             submit: Se connecter
