@@ -19,3 +19,5 @@
 !/web/uploads/profile_pictures/default.jpg
 .idea/
 *.php~
+phpunit.phar
+phpunit.cmd
