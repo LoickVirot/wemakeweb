@@ -33,11 +33,12 @@ before-install:
 # Install composer dependencies,
 # Create database, schema and fixtures
 install:
+  - mysql -e 'CREATE DATABASE symfony;'
   - mysql -e 'CREATE DATABASE wmwtest;'
   - cp app/config/parameters.yml.travis app/config/parameters.yml
   - composer install
   - php bin/console doctrine:schema:update --force --env=test
-  - php bin/console doctrine:fixture:load --env=test  
+  - php bin/console doctrine:fixture:load --env=test
 
 # Run script
 script:
