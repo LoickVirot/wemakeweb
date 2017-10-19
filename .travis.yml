@@ -40,4 +40,4 @@ install:
 
 # Run script
 script:
-- phpunit -c app
+- phpunit
