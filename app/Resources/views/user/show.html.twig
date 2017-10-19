@@ -70,9 +70,9 @@
                                 <div class="row">
                                     <div class="col text-secondary">
                                         {% if post.entity.lastUpdate is not null %}
-                                            <small class="post-date">Updated at {{ post.entity.lastUpdate|date('d F Y') }}</small>
+                                            <small class="post-date">{{ "common.updated_at"|trans }} {{ post.entity.lastUpdate|date('d F Y') }}</small>
                                         {% else %}
-                                            <small class="post-date">Created at {{ post.entity.creationDate|date('d F Y') }}</small>
+                                            <small class="post-date">{{ "common.created_at"|trans }} {{ post.entity.creationDate|date('d F Y') }}</small>
                                         {% endif %}
                                     </div>
                                     <div class="col text-right">
