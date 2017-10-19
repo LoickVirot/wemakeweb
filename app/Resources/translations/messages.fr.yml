@@ -10,7 +10,7 @@ base:
             profile: Profil
             logout: Déconnexion
     footer:
-        text: Créé avec ♥ par la communauté WeMakeWeb - Tous droits réservés -
+        text: Créé avec ♥ par la communauté WeMakeWeb - 
         terms: Conditions d'utilisation
 
 page:
