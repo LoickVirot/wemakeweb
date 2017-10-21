@@ -42,4 +42,4 @@ monolog:
 
 twig:
     globals:
-        prefix_static_link: "/app_dev.php"
+        prefix_static_link: "/app_dev.php/"
