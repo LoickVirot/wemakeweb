@@ -54,6 +54,7 @@ page:
             request:
                 title: Mot de passe oublié
                 username: Nom d'utilisateur
+                email: Adresse e-mail associée à votre compte
                 submit: Envoyer un e-mail
             confirm:
                 message: Vous avez bien changé votre mot de passe
