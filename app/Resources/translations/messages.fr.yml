@@ -50,7 +50,7 @@ page:
             submit: Créer un compte
             already: Vous possédez un compte ?
         resetting:
-            check_email: "Un e-mail a été envoyé. Il contient un lien sur lequel il vous faudra cliquer pour réinitialiser votre mot de passe.\n\nRemarque : Vous ne pouvez demander un nouveau mot de passe que toutes les 2 heures.\n\nSi vous ne recevez pas un email, vérifiez votre dossier spam ou essayez à nouveau."
+            check_email: "Un e-mail a été envoyé. Il contient un lien sur lequel il vous faudra cliquer pour réinitialiser votre mot de passe.\n\nRemarque : Vous ne pouvez demander un nouveau mot de passe que toutes les 2 heures.\n\nSi vous ne recevez pas un email, vérifiez votre dossier spam ou essayez à nouveau. Sinon, contactez <a href=\"mailto:info@wemakeweb.org\">info@wemakeweb.org</a>"
             request:
                 title: Mot de passe oublié
                 username: Nom d'utilisateur

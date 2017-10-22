@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-body">
                     <p>
-                    {{ 'page.user.resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
+                    {{ 'page.user.resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|raw|nl2br }}
                     </p>
                 </div>
             </div>
