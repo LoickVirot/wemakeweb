@@ -24,6 +24,3 @@ monolog:
 twig:
     globals:
         prefix_static_link: "/"
-
-parameters:
-    webhook_url: "https://discordapp.com/api/webhooks/375343075746250772/s1nrtZAbJyfR8SIdUKSjkzoei05ZzJlVeRcAH2anrTB9tBSf8SaFrs44_uH2YIS_r032"
