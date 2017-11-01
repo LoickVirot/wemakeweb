@@ -13,7 +13,6 @@ parameters:
     profile_picture_default_twig: 'uploads/profile_pictures/default.jpg'
     social:
         twitter: WeMakeWebOrg
-    webhook_url: "https://discordapp.com/api/webhooks/375272325710348288/dTl6j4N2GmB_SqGkUg4y9fQm4Io3K8jyBumaFbaza71IkLBp9LhcQtyJD3vaQUAkRHWx"
     prod_url: "http://wemakeweb.org"
 
 framework:

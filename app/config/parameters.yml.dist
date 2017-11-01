@@ -16,5 +16,7 @@ parameters:
     mailer_user: info@wemakeweb.org
     mailer_password: ~
 
+    webhook_url: null
+
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
