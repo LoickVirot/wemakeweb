@@ -35,6 +35,7 @@ page:
                 title: Supprimer le compte
                 text: Attention, cette action est irréversible. Cela supprimera définitivement vos informations et vos articles
                 button: Supprimer le compte
+                success: Votre compte a bien été supprimé
         show:
             edit_profile: Modifier le profil
         login:

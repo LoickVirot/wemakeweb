@@ -105,13 +105,18 @@ class UserController extends Controller
         $form = $this->createDeleteForm($user);
         $form->handleRequest($request);
 
+        /*
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($user);
             $em->flush();
         }
+        */
 
-        return $this->redirectToRoute('user_index');
+        $session = new Session();
+        $session->getFlashBag()->add('success', $this->get('translator')->trans("page.user.edit.delete.success"));
+
+        return $this->redirect("/");
     }
 
     /**
