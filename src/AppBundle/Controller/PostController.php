@@ -6,6 +6,7 @@ use AppBundle\Entity\Category;
 use AppBundle\Entity\Post;
 use AppBundle\Entity\PostUser;
 use AppBundle\Tests\Controller\CategoryControllerTest;
+use AppBundle\Utils\CurlSender;
 use AppBundle\Utils\UrlUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -83,6 +84,30 @@ class PostController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
             $em->flush();
+
+            // Send article to Discord
+            $headers = [
+                "content" => $this->get('translator')->trans("page.post.webhook"),
+                "embeds" => [
+                    [
+                        "author" => [
+                            "name"  => $post->getAuthor()->getUsername(),
+                            "url"   => $this->getParameter("prod_url") . $this->generateUrl("user_show", ["username" => $post->getAuthor()->getUsername()]),
+                            "icon_url" => $this->getParameter("prod_url") . '/' . $this->getParameter("profile_picture_directory_twig") . $post->getAuthor()->getProfilePicture()
+                        ],
+                        "title" => $post->getTitle(),
+                        "description" => substr($post->getContent(), 0, 140) . "...",
+                        "url" => $this->getParameter("prod_url") . $this->generateUrl("post_show", ["slug" => $post->getSlug()]),
+                        "color" => 4172799
+                    ]
+                ]
+            ];
+            try {
+                $curl = new CurlSender($this->getParameter("webhook_url"), CURLOPT_POST, $headers);
+                $curl->send();
+            } catch(\Exception $e) {
+                // Not important, no excetion need to be throwed
+            }
 
             return $this->redirectToRoute('post_show', array('slug' => $post->getSlug()));
         }

@@ -24,6 +24,7 @@ page:
             title: Modifier un article
         new:
             title: Créer un article
+        webhook: "Un nouvel article a été mis en ligne sur le blog collaboratif !"
     user:
         edit:
             info: Informations
