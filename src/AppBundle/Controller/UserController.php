@@ -61,12 +61,9 @@ class UserController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            if (is_null($editForm->getData()->getProfilePicture())) {
-                $user->setProfilePicture($oldProfilePicture);
-            }
             $picture = $user->getProfilePicture();
 
-            if (is_null($oldProfilePicture) or ($picture != $oldProfilePicture)) {
+            if (!is_null($picture)) {
                 $pictureName = md5(uniqid()).'.'.$picture->guessExtension();
 
                 $picture->move(
@@ -80,6 +77,8 @@ class UserController extends Controller
                 }
 
                 $user->setProfilePicture($pictureName);
+            } else {
+                $user->setProfilePicture($oldProfilePicture);
             }
 
             $this->getDoctrine()->getManager()->flush();
@@ -105,16 +104,14 @@ class UserController extends Controller
         $form = $this->createDeleteForm($user);
         $form->handleRequest($request);
 
-        /*
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($user);
             $em->flush();
-        }
-        */
 
-        $session = new Session();
-        $session->getFlashBag()->add('success', $this->get('translator')->trans("page.user.edit.delete.success"));
+            $session = new Session();
+            $session->getFlashBag()->add('success', $this->get('translator')->trans("page.user.edit.delete.success"));
+        }
 
         return $this->redirect("/");
     }
