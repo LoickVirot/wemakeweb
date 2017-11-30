@@ -1,0 +1,41 @@
+{% block body %}
+    <hr>
+    <h3>Commenter</h3>
+    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+        {{ form_start(form, {attr: {id: "commentForm"}}) }}
+        {{ form_widget(form) }}
+
+        {{ form_end(form) }}
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $(document).ready(function() {
+            $('#commentForm').submit(function(e) {
+                e.preventDefault();
+                var formURL = "{{ path('post_comment', {"id": post.id}) }}";
+                var formData = new FormData(this);
+
+                $.post({
+                    url: formURL,
+                    data: $(this).serialize(),
+                    mimeType:"multipart/form-data",
+                    success: function (data) {
+                        alert("OUI");
+                        console.log(data);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert("ERROR");
+                        console.error(jqXHR);
+                        console.error(textStatus);
+                        console.error(errorThrown);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+
+{% endblock %}

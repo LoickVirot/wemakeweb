@@ -3,8 +3,10 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Category;
+use AppBundle\Entity\Comment;
 use AppBundle\Entity\Post;
 use AppBundle\Entity\PostUser;
+use AppBundle\Form\CommentType;
 use AppBundle\Tests\Controller\CategoryControllerTest;
 use AppBundle\Utils\CurlSender;
 use AppBundle\Utils\UrlUtils;
@@ -12,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -55,7 +58,7 @@ class PostController extends Controller
 
         return $this->render('post/index.html.twig', array(
             'posts' => $sortedPosts,
-            'category' => $category
+            'category' => $category,
         ));
     }
 
@@ -177,6 +180,7 @@ class PostController extends Controller
             'post' => $post,
             'nbViews' => $nbViews,
             'delete_form' => $deleteForm->createView(),
+            'comment_form' => $this->createCommentForm(new Comment(), $post)->createView()
         ));
     }
 
@@ -283,5 +287,65 @@ class PostController extends Controller
     public function postByCategoryAction(Category $category)
     {
         return $this->indexAction($category);
+    }
+
+    /**
+     * Create a comment (AJAX required)
+     * @Route("/post/{id}/comment/{comment}", name="post_comment", condition="request.isXmlHttpRequest()")
+     * @Method("POST")
+     *
+     * @param Post $post
+     * @param Comment $comment
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function commentPost(Request $request, Post $post, Comment $comment = null)
+    {
+        // Is user logged in
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $errorMessage = [
+                "message" => "Access denied. You need to authenticate yourself."
+            ];
+            return new Response(json_encode($errorMessage), 401);
+        }
+
+        $comment = new Comment();
+        $form = $this->createForm('AppBundle\Form\CommentType', $comment);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $comment->setAuthor($this->getUser());
+            $comment->setPost($post);
+            $comment->addComment($comment);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+
+
+            $message = [
+                "message" => "OK"
+            ];
+            return new Response(json_encode($message), 200);
+        }
+
+        $errorMessage = [
+            "message" => "invalid data"
+        ];
+        return new Response(json_encode($errorMessage), 400);
+    }
+
+    /**
+     * Creates a form to create a Comment entity.
+     */
+    private function createCommentForm(Comment $comment, Post $post)
+    {
+        $form = $this->createForm(CommentType::class, $comment,
+            array(
+                'action' => $this->generateUrl('post_comment', ["id" => $post->getId()]),
+                'method' => 'POST',
+            )
+        );
+
+        return $form;
     }
 }
