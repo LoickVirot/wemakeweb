@@ -7,6 +7,9 @@
 
         {{ form_end(form) }}
     {% endif %}
+    <div id="post-comments">
+        To see comments, you need to activate Javascipt
+    </div>
 {% endblock %}
 
 {% block javascripts %}
@@ -16,18 +19,17 @@
             $('#commentForm').submit(function(e) {
                 e.preventDefault();
                 var formURL = "{{ path('post_comment', {"id": post.id}) }}";
-                var formData = new FormData(this);
 
                 $.post({
                     url: formURL,
                     data: $(this).serialize(),
                     mimeType:"multipart/form-data",
                     success: function (data) {
-                        alert("OUI");
                         console.log(data);
+                        $('#commentForm').find('textarea').val('');
+                        showComments();
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        alert("ERROR");
                         console.error(jqXHR);
                         console.error(textStatus);
                         console.error(errorThrown);
@@ -35,6 +37,44 @@
                 });
                 return false;
             });
+
+            function showComments() {
+                var url = "{{ path('post_get_comment', {"id": post.id}) }}";
+                $.get({
+                    url: url,
+                    success: function(data) {
+                        $('#post-comments').html("");
+
+                        data.forEach(function(element) {
+                            addComment(element);
+                        });
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error(jqXHR);
+                        console.error(textStatus);
+                        console.error(errorThrown);
+                    }
+                });
+            }
+
+            function addComment(comment) {
+                content =
+                    "<div class='comment'>" +
+                        "<div class='comment-author'>" +
+                            "<img src='/{{ profile_picture_directory }}"+ comment.author.profilePicture +"'>" +
+                        "</div>" +
+                        "<div class='comment-content'>" +
+                            "<div class='username'>" +
+                                "<a href='"+ comment.author.profileUrl +"'>" + comment.author.username + "</a>" +
+                            "</div>" +
+                            comment.comment.content +
+                        "</div>" +
+                    "</div>";
+                $('#post-comments').append(content);
+            }
+
+            showComments();
+
         });
     </script>
 

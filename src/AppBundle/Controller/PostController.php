@@ -10,6 +10,7 @@ use AppBundle\Form\CommentType;
 use AppBundle\Tests\Controller\CategoryControllerTest;
 use AppBundle\Utils\CurlSender;
 use AppBundle\Utils\UrlUtils;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -19,6 +20,10 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Post controller.
@@ -291,14 +296,14 @@ class PostController extends Controller
 
     /**
      * Create a comment (AJAX required)
-     * @Route("/post/{id}/comment/{comment}", name="post_comment", condition="request.isXmlHttpRequest()")
+     * @Route("/post/{id}/comment/{comment}", name="post_comment", condition="request.isXmlHttpRequest()", defaults={"comment" = null})
      * @Method("POST")
      *
      * @param Post $post
      * @param Comment $comment
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function commentPost(Request $request, Post $post, Comment $comment = null)
+    public function commentPost(Request $request, Post $post, Comment $answerTo = null)
     {
         // Is user logged in
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -315,7 +320,7 @@ class PostController extends Controller
         if ($form->isValid()) {
             $comment->setAuthor($this->getUser());
             $comment->setPost($post);
-            $comment->addComment($comment);
+            $comment->addComment($answerTo);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
@@ -347,5 +352,36 @@ class PostController extends Controller
         );
 
         return $form;
+    }
+
+
+    /**
+     * Create a comment (AJAX required)
+     * @Route("/post/{id}/comment/", name="post_get_comment")
+     * @Method("GET")
+     * @ParamConverter("id", options={"mapping": {"id": "post"}})
+     *
+     * @param Post $post
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getCommentsPosts(Post $post)
+    {
+        $result = array();
+        /** @var Comment $comment */
+        foreach ($post->getComments()->toArray() as $comment) {
+            $result[] = [
+                "author" => [
+                    "username" => htmlentities($comment->getAuthor()->getUsername()),
+                    "profileUrl" => $this->generateUrl("user_show", ["username" => $comment->getAuthor()->getUsername()]),
+                    "profilePicture" => $comment->getAuthor()->getProfilePicture()
+                ],
+                "comment" => [
+                    "content" => htmlentities($comment->getContent()),
+                    "answerTo" => $comment->getAnswerTo(),
+                    "date" => $comment->getDate()
+                ]
+            ];
+        }
+        return $this->json($result);
     }
 }

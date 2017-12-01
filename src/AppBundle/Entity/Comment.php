@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 
@@ -25,7 +26,7 @@ class Comment
 
     /**
      * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments", cascade={"persist"})
-     * @JoinColumn(name="post_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     * @JoinColumn(name="post_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $post;
 
@@ -65,7 +66,7 @@ class Comment
      */
     public function __construct()
     {
-        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->comments = new ArrayCollection();
         $this->date = new \DateTime();
     }
 
@@ -216,7 +217,7 @@ class Comment
      *
      * @return Comment
      */
-    public function setPost(\AppBundle\Entity\Post $post = null)
+    public function setPost(\AppBundle\Entity\Post $post)
     {
         $this->post = $post;
 

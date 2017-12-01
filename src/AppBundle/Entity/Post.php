@@ -82,7 +82,7 @@ class Post
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade="remove")
      */
-    protected $comments;
+    private $comments;
 
     public function __construct() {
         $this->creationDate = new \DateTime();
