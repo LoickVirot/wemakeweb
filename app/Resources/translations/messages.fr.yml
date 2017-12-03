@@ -20,6 +20,11 @@ page:
             desc: Voici les derniers articles publiés
         show:
             author: L'auteur
+            comments:
+                title: Commentaires
+                commentph: Poster un commentaire...
+                commentbtn: Commenter
+                nologin: Pour poster un commentaire, vous devez vous <a href="%url%">connecter</a>.
         edit:
             title: Modifier un article
         new:

@@ -240,8 +240,8 @@ nav .nav-link {
     width: 100%;
     text-align: center;
 }
-#post-comments {
-    margin-top: 70px;
+#commentForm {
+    padding-bottom: 40px;
 
 }
 

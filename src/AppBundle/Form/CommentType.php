@@ -20,6 +20,7 @@ class CommentType extends AbstractType
                 "required" => false
             ])
             ->add('save', SubmitType::class, [
+                "label"=> "page.post.show.comments.commentbtn",
                 "attr" => [
                     "class" => "btn btn-primary float-right"
                 ]
