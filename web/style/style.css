@@ -263,6 +263,12 @@ nav .nav-link {
     color: #333;
 }
 
+#post-comments .comment .comment-content .date {
+    font-size: 0.8em;
+    color: #aaa;
+    padding-left: 10px;
+}
+
 #post-comments .comment .comment-content {
     width: 100%;
     margin-left: 10px;

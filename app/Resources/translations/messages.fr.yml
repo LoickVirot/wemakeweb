@@ -79,6 +79,7 @@ common:
         edit: Modifier
         cancel: Annuler
         create: Créer
+        confirm: Confirmer
 
 error:
     500:

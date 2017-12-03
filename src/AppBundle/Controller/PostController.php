@@ -298,9 +298,12 @@ class PostController extends Controller
      * Create a comment (AJAX required)
      * @Route("/post/{id}/comment/{comment}", name="post_comment", condition="request.isXmlHttpRequest()", defaults={"comment" = null})
      * @Method("POST")
+     * @ParamConverter("id", options={"mapping": {"id": "post"}})
+     * @ParamConverter("comment", options={"mapping": {"comment": "answerTo"}})
      *
+     * @param Request $request
      * @param Post $post
-     * @param Comment $comment
+     * @param Comment|null $answerTo
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function commentPost(Request $request, Post $post, Comment $answerTo = null)
@@ -310,7 +313,7 @@ class PostController extends Controller
             $errorMessage = [
                 "message" => "Access denied. You need to authenticate yourself."
             ];
-            return new Response(json_encode($errorMessage), 401);
+            return $this->json(json_encode($errorMessage), 401);
         }
 
         $comment = new Comment();
@@ -320,7 +323,9 @@ class PostController extends Controller
         if ($form->isValid()) {
             $comment->setAuthor($this->getUser());
             $comment->setPost($post);
-            $comment->addComment($answerTo);
+            if (!is_null($answerTo)) {
+                $comment->addComment($answerTo);
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
@@ -330,13 +335,13 @@ class PostController extends Controller
             $message = [
                 "message" => "OK"
             ];
-            return new Response(json_encode($message), 200);
+            return $this->json(json_encode($message));
         }
 
         $errorMessage = [
             "message" => "invalid data"
         ];
-        return new Response(json_encode($errorMessage), 400);
+        return $this->json(json_encode($errorMessage), 400);
     }
 
     /**
@@ -370,6 +375,7 @@ class PostController extends Controller
         /** @var Comment $comment */
         foreach ($post->getComments()->toArray() as $comment) {
             $result[] = [
+                "id" => $comment->getId(),
                 "author" => [
                     "username" => htmlentities($comment->getAuthor()->getUsername()),
                     "profileUrl" => $this->generateUrl("user_show", ["username" => $comment->getAuthor()->getUsername()]),
@@ -378,10 +384,34 @@ class PostController extends Controller
                 "comment" => [
                     "content" => htmlentities($comment->getContent()),
                     "answerTo" => $comment->getAnswerTo(),
-                    "date" => $comment->getDate()
+                    "date" => $comment->getDate()->format('d/m/Y')
                 ]
             ];
         }
         return $this->json($result);
+    }
+
+    /**
+     * Create a comment (AJAX required)
+     * @Route("/post/comment/{comment}", name="post_delete_comment")
+     * @Method("DELETE")
+     *
+     * @param Comment $comment
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteCommentPost(Comment $comment)
+    {
+        if ($comment->getAuthor() !== ($this->getUser())) {
+            return $this->json(json_encode("Not authorized" ), 401);
+        }
+
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($comment);
+            $em->flush();
+            return $this->json(json_encode("deleted"));
+        } catch(\Exception $e) {
+            return $this->json(json_encode("error : " . $e->getMessage() ), 400);
+        }
     }
 }

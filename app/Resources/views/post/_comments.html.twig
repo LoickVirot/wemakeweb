@@ -66,23 +66,78 @@
 
             function addComment(comment) {
                 content =
-                    "<div class='comment'>" +
+                    "<div class='comment' id='comment"+ comment.id +"'>" +
                         "<div class='comment-author'>" +
                             "<img src='/{{ profile_picture_directory }}"+ comment.author.profilePicture +"'>" +
                         "</div>" +
                         "<div class='comment-content'>" +
                             "<div class='username'>" +
-                                "<a href='"+ comment.author.profileUrl +"'>" + comment.author.username + "</a>" +
+                                "<a href='"+ comment.author.profileUrl +"' class='label'>" + comment.author.username + "</a>" +
+                                "<span class='date'>"+ comment.comment.date +"</span>" +
+                                "<span class='deleteComment float-right'></span>" +
                             "</div>" +
                             comment.comment.content +
                         "</div>" +
                     "</div>";
                 $('#post-comments').append(content);
+                deleteState("", comment.id)
             }
 
             showComments();
-
         });
+
+        function deleteComment(e, id) {
+            e.preventDefault();
+            deleteState('confirm', id);
+        }
+
+        function cancelDelete(event, id) {
+            event.preventDefault();
+            deleteState('', id);
+        }
+
+        function confirmDelete(event, id) {
+            event.preventDefault();
+            $.ajax({
+                method: 'DELETE',
+                url: '/post/comment/'+id,
+                success: function (data) {
+                    $('#comment'+id).fadeOut(300);
+                    setTimeout(function () {
+                        $('#comment'+id).remove();
+                    }, 400)
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error(jqXHR);
+                    console.error(textStatus);
+                    console.error(errorThrown);
+                }
+            })
+        }
+
+        function deleteState(state, id) {
+            {% if app.user is null %}
+                user = null;
+            {% else %}
+                user = "{{ app.user.username }}";
+            {% endif %}
+            if ($('#comment'+id).find('.username .label').text() !== user) {
+                return;
+            }
+            elem = $("#comment"+id).find(".deleteComment");
+            switch(state) {
+                case 'confirm':
+                    elem.removeClass("text-danger");
+                    elem.html(
+                        "<a href='#' onclick='cancelDelete(event, "+id+")'>{{ "common.action.cancel"|trans }}</a> - <a href='#' class='text-danger' onclick='confirmDelete(event, "+id+")'>{{ "common.action.confirm"|trans }}</a>"
+                    );
+                    break;
+                default:
+                    elem.addClass("text-danger");
+                    elem.html("<a href='#' class='text-danger deleteComment' onclick='deleteComment(event, "+ id +")'>{{ "common.action.delete"|trans }}</a>")
+            }
+        }
+
     </script>
 
 {% endblock %}
