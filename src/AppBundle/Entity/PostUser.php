@@ -58,6 +58,10 @@ class PostUser
     private $nbReads = 0;
 
 
+    public function __toString() {
+        return "" . $this->getId();
+    }
+
     /**
      * Get id
      *
