@@ -1,25 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-<link rel="stylesheet" href="{{ asset('style/trumbowyg.min.css') }}">
-{% endblock %}
-
-{% block javascripts %}
-    <script src="{{ asset('javascript/trumbowyg.min.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            $.trumbowyg.svgPath = "{{ asset('svg/trumbowyg/icons.svg') }}";
-
-            $('#appbundle_post_content').trumbowyg({
-                btns: [['formatting'], 'strong', 'em', '|', 'link', 'insertImage'],
-                autogrow: true
-            });
-        });
-    </script>
-{% endblock %}
+{% use "post/_form.html.twig" %}
 
 {% block body %}
-<div class="container page-content">
+    <div class="container page-content">
     <h1>{{ "page.post.new.title"|trans }}</h1>
     {{ form_start(form) }}
         {{ form_widget(form) }}

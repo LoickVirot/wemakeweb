@@ -1,0 +1,27 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('style/simplemde.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('style/jquery.tagsinput.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('javascript/simplemde.min.js') }}"></script>
+    <script src="{{ asset("javascript/jquery.tagsinput.min.js") }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            editor = new SimpleMDE({
+                element: $("#appbundle_post_content")[0],
+                spellChecker: false,
+                promptURLs: true,
+                showIcons: ["code", "table", "heading-1", "heading-2", "heading-3"],
+                hideIcons: ["fullscreen", "side-by-side", "heading"]
+            });
+
+            $('#appbundle_post_tags').tagsInput({
+                'height':'45px',
+                'width':'100%',
+                'placeholderColor' : '#FF00000'
+            });
+        });
+    </script>
+{% endblock %}
