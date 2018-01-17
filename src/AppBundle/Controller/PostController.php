@@ -5,8 +5,9 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Post;
 use AppBundle\Entity\PostUser;
+use AppBundle\Service\Parsedown;
 use AppBundle\Tests\Controller\CategoryControllerTest;
-use AppBundle\Utils\CurlSender;
+use AppBundle\Service\CurlSender;
 use AppBundle\Utils\UrlUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -34,18 +35,25 @@ class PostController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if (is_null($category)) {
-            $posts = $em->getRepository('AppBundle:Post')->findAll();
+            $posts = $em->getRepository('AppBundle:Post')->findBy([], ['creationDate'=> 'desc']);
         } else {
             $posts = $em->getRepository('AppBundle:Post')->findBy([
                 "category" => $category
             ]);
         }
 
+        // Class posts to fill columns and parse markdown
+        $parsedown = new Parsedown();
         $column = 0;
         $sortedPosts = array();
         foreach ($posts as $post) {
+            // Parse markdown and remove html tags
+            $post->setContent(strip_tags($parsedown->parse($post->getContent())));
+
             $sortedPosts[$column][$post->getId()]['entity'] = $post;
-            $sortedPosts[$column][$post->getId()]['nbViews'] = $em->getRepository('AppBundle:PostUser')->getNbReads($post);
+            $sortedPosts[$column][$post->getId()]['nbViews'] = $em
+                ->getRepository('AppBundle:PostUser')
+                ->getNbReads($post);
             if ($column == 2) {
                 $column = 0;
             } else {
@@ -92,7 +100,7 @@ class PostController extends Controller
                     [
                         "author" => [
                             "name"  => $post->getAuthor()->getUsername(),
-                            "url"   => $this->getParameter("prod_url") . $this->generateUrl("user_show", ["username" => $post->getAuthor()->getUsername()]),
+                            "url"   => $this->getParameter("prod_url"). $this->generateUrl("user_show", ["username" => $post->getAuthor()->getUsername()]),
                             "icon_url" => $this->getParameter("prod_url") . '/' . $this->getParameter("profile_picture_directory_twig") . $post->getAuthor()->getProfilePicture()
                         ],
                         "title" => $post->getTitle(),
@@ -172,6 +180,10 @@ class PostController extends Controller
         $nbViews = $em->getRepository('AppBundle:PostUser')->getNbReads($post);
 
         $deleteForm = $this->createDeleteForm($post);
+
+        // Parsedown to html
+        $parser = new Parsedown();
+        $post->setContent($parser->parse($post->getContent()));
 
         return $this->render('post/show.html.twig', array(
             'post' => $post,

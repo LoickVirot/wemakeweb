@@ -8,7 +8,7 @@
 
 namespace AppBundle\Tests\Utils;
 
-use AppBundle\Utils\CurlSender;
+use AppBundle\Service\CurlSender;
 use PHPUnit_Framework_TestCase;
 
 class CurlSenderTest extends PHPUnit_Framework_TestCase
