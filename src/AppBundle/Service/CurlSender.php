@@ -6,7 +6,7 @@
  * Time: 17:40
  */
 
-namespace AppBundle\Utils;
+namespace AppBundle\Service;
 
 class CurlSender
 {
