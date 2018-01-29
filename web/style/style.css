@@ -173,6 +173,15 @@ nav .nav-link {
     width: 30px;
 }
 
+#post-list .card .post-stat small .oi {
+    font-size: 0.9em;
+    color: #AAAAAA !important;
+}
+
+#post-list .card .post-stat small{
+    color: #AAAAAA !important;
+}
+
 #post-show {
     max-width: 750px;
     margin: auto;
@@ -239,4 +248,40 @@ nav .nav-link {
     cursor: pointer;
     width: 100%;
     text-align: center;
+}
+#commentForm {
+    padding-bottom: 40px;
+
+}
+
+#post-comments .comment {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+#post-comments .comment .comment-author img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+#post-comments .comment .comment-content .username a {
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #333;
+}
+
+#post-comments .comment .comment-content .date {
+    font-size: 0.8em;
+    color: #aaa;
+    padding-left: 10px;
+}
+
+#post-comments .comment .comment-content {
+    width: 100%;
+    margin-left: 10px;
+    padding: 5px 10px 10px;
+    background: #EAEAEA;
+    border-radius: 3px;
 }

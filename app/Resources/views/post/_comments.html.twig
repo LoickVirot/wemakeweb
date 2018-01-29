@@ -1,0 +1,143 @@
+{% block body %}
+    <hr>
+    <h3>{{ "page.post.show.comments.title"|trans }}</h3>
+    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+        {{ form_start(form, {attr: {id: "commentForm"}}) }}
+        <div class="form-group">
+            {{ form_widget(form.content, {'attr': {'placeholder': "page.post.show.comments.commentph"|trans}}) }}
+            {{ form_errors(form.content) }}
+        </div>
+
+        {{ form_end(form) }}
+    {% else %}
+        <div class="alert alert-info">
+            {{ "page.post.show.comments.nologin"|trans({'%url%': path('fos_user_security_login')})|raw }}
+        </div>
+    {% endif %}
+    <div id="post-comments">
+        To see comments, you need to activate Javascipt
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $(document).ready(function() {
+            $('#commentForm').submit(function(e) {
+                e.preventDefault();
+                var formURL = "{{ path('post_comment', {"id": post.id}) }}";
+
+                $.post({
+                    url: formURL,
+                    data: $(this).serialize(),
+                    mimeType:"multipart/form-data",
+                    success: function (data) {
+                        console.log(data);
+                        $('#commentForm').find('textarea').val('');
+                        showComments();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error(jqXHR);
+                        console.error(textStatus);
+                        console.error(errorThrown);
+                    }
+                });
+                return false;
+            });
+
+            function showComments() {
+                var url = "{{ path('post_get_comment', {"id": post.id}) }}";
+                $.get({
+                    url: url,
+                    success: function(data) {
+                        $('#post-comments').html("");
+
+                        data.forEach(function(element) {
+                            addComment(element);
+                        });
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error(jqXHR);
+                        console.error(textStatus);
+                        console.error(errorThrown);
+                    }
+                });
+            }
+
+            function addComment(comment) {
+                content =
+                    "<div class='comment' id='comment"+ comment.id +"'>" +
+                        "<div class='comment-author'>" +
+                            "<img src='/{{ profile_picture_directory }}"+ (comment.author.profilePicture !== null ? comment.author.profilePicture : "default.jpg") +"'>" +
+                        "</div>" +
+                        "<div class='comment-content'>" +
+                            "<div class='username'>" +
+                                "<a href='"+ comment.author.profileUrl +"' class='label'>" + comment.author.username + "</a>" +
+                                "<span class='date'>"+ comment.comment.date +"</span>" +
+                                "<span class='deleteComment float-right'></span>" +
+                            "</div>" +
+                            comment.comment.content +
+                        "</div>" +
+                    "</div>";
+                $('#post-comments').append(content);
+                deleteState("", comment.id)
+            }
+
+            showComments();
+        });
+
+        function deleteComment(e, id) {
+            e.preventDefault();
+            deleteState('confirm', id);
+        }
+
+        function cancelDelete(event, id) {
+            event.preventDefault();
+            deleteState('', id);
+        }
+
+        function confirmDelete(event, id) {
+            event.preventDefault();
+            $.ajax({
+                method: 'DELETE',
+                url: '/post/comment/'+id,
+                success: function (data) {
+                    $('#comment'+id).fadeOut(300);
+                    setTimeout(function () {
+                        $('#comment'+id).remove();
+                    }, 400)
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error(jqXHR);
+                    console.error(textStatus);
+                    console.error(errorThrown);
+                }
+            })
+        }
+
+        function deleteState(state, id) {
+            {% if app.user is null %}
+                user = null;
+            {% else %}
+                user = "{{ app.user.username }}";
+            {% endif %}
+            if ($('#comment'+id).find('.username .label').text() !== user) {
+                return;
+            }
+            elem = $("#comment"+id).find(".deleteComment");
+            switch(state) {
+                case 'confirm':
+                    elem.removeClass("text-danger");
+                    elem.html(
+                        "<a href='#' onclick='cancelDelete(event, "+id+")'>{{ "common.action.cancel"|trans }}</a> - <a href='#' class='text-danger' onclick='confirmDelete(event, "+id+")'>{{ "common.action.confirm"|trans }}</a>"
+                    );
+                    break;
+                default:
+                    elem.addClass("text-danger");
+                    elem.html("<a href='#' class='text-danger deleteComment' onclick='deleteComment(event, "+ id +")'>{{ "common.action.delete"|trans }}</a>")
+            }
+        }
+
+    </script>
+
+{% endblock %}

@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+use AppBundle\Utils\UrlUtils;
 
 /**
  * Post
@@ -22,9 +24,15 @@ class Post
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="posts", cascade={"persist"})
+     * @JoinColumn(name="author_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $author;
+
+    /**
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
+     */
+    private $slug;
 
     /**
      * @var \DateTime
@@ -43,7 +51,7 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=100)
      */
     private $title;
 
@@ -66,8 +74,22 @@ class Post
      */
     private $tags;
 
+    /**
+     * @ORM\OneToMany(targetEntity="PostUser", mappedBy="post", cascade="remove")
+     */
+    private $postUsers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade="remove")
+     */
+    protected $comments;
+
     public function __construct() {
         $this->creationDate = new \DateTime();
+    }
+
+    public function __toString() {
+        return $this->getTitle();
     }
 
     /**
@@ -247,5 +269,62 @@ class Post
     {
         return $this->tags;
     }
-}
 
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Post
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Add postUser
+     *
+     * @param \AppBundle\Entity\PostUser $postUser
+     *
+     * @return Post
+     */
+    public function addPostUser(\AppBundle\Entity\PostUser $postUser)
+    {
+        $this->postUsers[] = $postUser;
+
+        return $this;
+    }
+
+    /**
+     * Remove postUser
+     *
+     * @param \AppBundle\Entity\PostUser $postUser
+     */
+    public function removePostUser(\AppBundle\Entity\PostUser $postUser)
+    {
+        $this->postUsers->removeElement($postUser);
+    }
+
+    /**
+     * Get postUsers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPostUsers()
+    {
+        return $this->postUsers;
+    }
+}
