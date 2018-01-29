@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
+use AppBundle\Service\Parsedown;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -25,9 +26,12 @@ class UserController extends Controller
      */
     public function showAction(User $user)
     {
+        $parsedown = new Parsedown();
         $em = $this->getDoctrine()->getManager();
         $posts = [];
         foreach ($user->getPosts() as $post) {
+            // Parse markdown and remove html tags
+            $post->setContent(strip_tags($parsedown->parse($post->getContent())));
             $posts[$post->getId()]['entity'] = $post;
             $posts[$post->getId()]['nbviews'] = $em->getRepository('AppBundle:PostUser')->getNbReads($post);
         }

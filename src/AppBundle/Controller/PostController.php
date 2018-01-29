@@ -3,20 +3,28 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Category;
+use AppBundle\Entity\Comment;
 use AppBundle\Entity\Post;
 use AppBundle\Entity\PostUser;
 use AppBundle\Service\Parsedown;
+use AppBundle\Form\CommentType;
 use AppBundle\Tests\Controller\CategoryControllerTest;
 use AppBundle\Service\CurlSender;
 use AppBundle\Utils\UrlUtils;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Post controller.
@@ -63,7 +71,7 @@ class PostController extends Controller
 
         return $this->render('post/index.html.twig', array(
             'posts' => $sortedPosts,
-            'category' => $category
+            'category' => $category,
         ));
     }
 
@@ -189,6 +197,7 @@ class PostController extends Controller
             'post' => $post,
             'nbViews' => $nbViews,
             'delete_form' => $deleteForm->createView(),
+            'comment_form' => $this->createCommentForm(new Comment(), $post)->createView()
         ));
     }
 
@@ -295,5 +304,126 @@ class PostController extends Controller
     public function postByCategoryAction(Category $category)
     {
         return $this->indexAction($category);
+    }
+
+    /**
+     * Create a comment (AJAX required)
+     * @Route("/post/{id}/comment/{comment}", name="post_comment", condition="request.isXmlHttpRequest()", defaults={"comment" = null})
+     * @Method("POST")
+     * @ParamConverter("id", options={"mapping": {"id": "post"}})
+     * @ParamConverter("comment", options={"mapping": {"comment": "answerTo"}})
+     *
+     * @param Request $request
+     * @param Post $post
+     * @param Comment|null $answerTo
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function commentPost(Request $request, Post $post, Comment $answerTo = null)
+    {
+        // Is user logged in
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $errorMessage = [
+                "message" => "Access denied. You need to authenticate yourself."
+            ];
+            return $this->json(json_encode($errorMessage), 401);
+        }
+
+        $comment = new Comment();
+        $form = $this->createForm('AppBundle\Form\CommentType', $comment);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $comment->setAuthor($this->getUser());
+            $comment->setPost($post);
+            if (!is_null($answerTo)) {
+                $comment->addComment($answerTo);
+            }
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+
+
+            $message = [
+                "message" => "OK"
+            ];
+            return $this->json(json_encode($message));
+        }
+
+        $errorMessage = [
+            "message" => "invalid data"
+        ];
+        return $this->json(json_encode($errorMessage), 400);
+    }
+
+    /**
+     * Creates a form to create a Comment entity.
+     */
+    private function createCommentForm(Comment $comment, Post $post)
+    {
+        $form = $this->createForm(CommentType::class, $comment,
+            array(
+                'action' => $this->generateUrl('post_comment', ["id" => $post->getId()]),
+                'method' => 'POST',
+            )
+        );
+
+        return $form;
+    }
+
+
+    /**
+     * Create a comment (AJAX required)
+     * @Route("/post/{id}/comment/", name="post_get_comment")
+     * @Method("GET")
+     * @ParamConverter("id", options={"mapping": {"id": "post"}})
+     *
+     * @param Post $post
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getCommentsPosts(Post $post)
+    {
+        $result = array();
+        /** @var Comment $comment */
+        foreach ($post->getComments()->toArray() as $comment) {
+            $result[] = [
+                "id" => $comment->getId(),
+                "author" => [
+                    "username" => htmlentities($comment->getAuthor()->getUsername()),
+                    "profileUrl" => $this->generateUrl("user_show", ["username" => $comment->getAuthor()->getUsername()]),
+                    "profilePicture" => $comment->getAuthor()->getProfilePicture()
+                ],
+                "comment" => [
+                    "content" => htmlentities($comment->getContent()),
+                    "answerTo" => $comment->getAnswerTo(),
+                    "date" => $comment->getDate()->format('d/m/Y')
+                ]
+            ];
+        }
+        return $this->json($result);
+    }
+
+    /**
+     * Create a comment (AJAX required)
+     * @Route("/post/comment/{comment}", name="post_delete_comment")
+     * @Method("DELETE")
+     *
+     * @param Comment $comment
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteCommentPost(Comment $comment)
+    {
+        if ($comment->getAuthor() !== ($this->getUser())) {
+            return $this->json(json_encode("Not authorized" ), 401);
+        }
+
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($comment);
+            $em->flush();
+            return $this->json(json_encode("deleted"));
+        } catch(\Exception $e) {
+            return $this->json(json_encode("error : " . $e->getMessage() ), 400);
+        }
     }
 }

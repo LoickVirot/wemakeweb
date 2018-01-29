@@ -23,8 +23,9 @@ class User extends BaseUser
     protected $id;
 
     /**
-    * @ORM\OneToMany(targetEntity="Post", mappedBy="author", cascade="remove")
-    */
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="author", cascade="remove")
+     * @ORM\OrderBy({"creationDate" = "DESC"})
+     */
     protected $posts;
 
     /**
@@ -58,6 +59,11 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="PostUser", mappedBy="user")
      */
     private $postUsers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="author", cascade="remove")
+     */
+    protected $comments;
 
     public function __construct()
     {
@@ -251,5 +257,39 @@ class User extends BaseUser
     public function getPostUsers()
     {
         return $this->postUsers;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     *
+     * @return User
+     */
+    public function addComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     */
+    public function removeComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

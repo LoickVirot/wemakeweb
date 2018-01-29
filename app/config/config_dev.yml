@@ -7,7 +7,8 @@ framework:
         strict_requirements: true
     profiler: { only_exceptions: false }
     session:
-        save_path: /tmp
+        save_path: '/tmp'
+
 
 web_profiler:
     toolbar: true

@@ -20,6 +20,11 @@ page:
             desc: Voici les derniers articles publiés
         show:
             author: L'auteur
+            comments:
+                title: Commentaires
+                commentph: Poster un commentaire...
+                commentbtn: Commenter
+                nologin: Pour poster un commentaire, vous devez vous <a href="%url%">connecter</a>.
         edit:
             title: Modifier un article
         new:
@@ -65,6 +70,7 @@ page:
 
 common:
     view: vue | vues
+    comment: commentaire | commentaires
     updated_at: Mis à jour le
     created_at: Créé le
     post: article | articles
@@ -74,6 +80,7 @@ common:
         edit: Modifier
         cancel: Annuler
         create: Créer
+        confirm: Confirmer
 
 error:
     500:

@@ -79,6 +79,12 @@ class Post
      */
     private $postUsers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade="remove")
+     * @ORM\OrderBy({"date" = "DESC"})
+     */
+    private $comments;
+
     public function __construct() {
         $this->creationDate = new \DateTime();
     }
@@ -321,5 +327,39 @@ class Post
     public function getPostUsers()
     {
         return $this->postUsers;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     *
+     * @return Post
+     */
+    public function addComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     */
+    public function removeComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }
