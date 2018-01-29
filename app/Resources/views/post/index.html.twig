@@ -33,8 +33,9 @@
                                                 </small>
                                             {% endif %}
                                         </div>
-                                        <div class="col text-right">
-                                            <small class="text-secondary">{{ post.nbViews }} {{ "common.view"|transchoice(post.nbViews) }}</small>
+                                        <div class="col text-right post-stat">
+                                            <small class="text-secondary"><span class="oi oi-eye"></span> {{ post.nbViews }}</small>
+                                            <small class="text-secondary"><span class="oi oi-comment-square"></span> {{ post.entity.comments|length }}</small>
                                         </div>
                                     </div>
                                 </div>

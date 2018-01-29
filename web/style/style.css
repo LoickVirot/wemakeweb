@@ -173,6 +173,15 @@ nav .nav-link {
     width: 30px;
 }
 
+#post-list .card .post-stat small .oi {
+    font-size: 0.9em;
+    color: #AAAAAA !important;
+}
+
+#post-list .card .post-stat small{
+    color: #AAAAAA !important;
+}
+
 #post-show {
     max-width: 750px;
     margin: auto;
