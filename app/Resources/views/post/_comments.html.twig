@@ -68,7 +68,7 @@
                 content =
                     "<div class='comment' id='comment"+ comment.id +"'>" +
                         "<div class='comment-author'>" +
-                            "<img src='/{{ profile_picture_directory }}"+ comment.author.profilePicture +"'>" +
+                            "<img src='/{{ profile_picture_directory }}"+ (comment.author.profilePicture !== null ? comment.author.profilePicture : "default.jpg") +"'>" +
                         "</div>" +
                         "<div class='comment-content'>" +
                             "<div class='username'>" +
