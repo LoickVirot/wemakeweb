@@ -23,8 +23,9 @@ class User extends BaseUser
     protected $id;
 
     /**
-    * @ORM\OneToMany(targetEntity="Post", mappedBy="author", cascade="remove")
-    */
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="author", cascade="remove")
+     * @ORM\OrderBy({"creationDate" = "DESC"})
+     */
     protected $posts;
 
     /**

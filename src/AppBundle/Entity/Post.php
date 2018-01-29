@@ -81,6 +81,7 @@ class Post
 
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade="remove")
+     * @ORM\OrderBy({"date" = "DESC"})
      */
     private $comments;
 
