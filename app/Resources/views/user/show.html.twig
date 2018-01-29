@@ -76,7 +76,9 @@
                                         {% endif %}
                                     </div>
                                     <div class="col text-right">
-                                        <small>{{ post.nbviews }} views</small>
+                                        <small>{{ post.nbviews }} {{ "common.view"|transchoice(post.nbviews) }}</small>
+                                        &nbsp;-&nbsp;
+                                        <small>{{ post.entity.comments|length }} {{ "common.comment"|transchoice(post.entity.comments|length) }}</small>
                                     </div>
                                 </div>
                             </div>

@@ -70,7 +70,7 @@ page:
 
 common:
     view: vue | vues
-    comments: commentaire | commentaires
+    comment: commentaire | commentaires
     updated_at: Mis à jour le
     created_at: Créé le
     post: article | articles

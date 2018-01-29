@@ -26,8 +26,14 @@ class UserController extends Controller
     public function showAction(User $user)
     {
         $em = $this->getDoctrine()->getManager();
+        // get user's post order by date
+        $userPosts = $em->getRepository("AppBundle:Post")->findBy([
+            "author" => $user
+        ], [
+            'creationDate'=> 'desc'
+        ]);
         $posts = [];
-        foreach ($user->getPosts() as $post) {
+        foreach ($userPosts as $post) {
             $posts[$post->getId()]['entity'] = $post;
             $posts[$post->getId()]['nbviews'] = $em->getRepository('AppBundle:PostUser')->getNbReads($post);
         }
