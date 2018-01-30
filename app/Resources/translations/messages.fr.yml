@@ -29,6 +29,8 @@ page:
             title: Modifier un article
         new:
             title: Créer un article
+            error:
+                no-content: Le contenu de l'article ne peut pas être vide
         webhook: "Un nouvel article a été mis en ligne sur le blog collaboratif !"
     user:
         edit:
