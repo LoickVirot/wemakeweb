@@ -246,7 +246,7 @@ class PostController extends Controller
 
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('post_edit', array('id' => $post->getId()));
+            return $this->redirectToRoute('post_show', array('slug' => $post->getSlug()));
         }
 
         return $this->render('post/edit.html.twig', array(
