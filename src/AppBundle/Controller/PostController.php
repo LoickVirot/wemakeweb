@@ -89,6 +89,12 @@ class PostController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Check if content is empty (cannot do this into form, because of markdown editor)
+            if (empty($post->getContent())) {
+                $this->addFlash('danger', $this->get('translator')->trans("page.post.new.error.no-content"));
+                return $this->redirectToRoute("post_new");
+            }
+
             // Stop XSS insertion to content
             $post->setContent(str_ireplace('<script>', '&lt;script&gt;', $post->getContent()));
             $post->setContent(str_ireplace('</script>', '&lt;/script&gt;', $post->getContent()));
@@ -211,8 +217,7 @@ class PostController extends Controller
     public function editAction(Request $request, Post $post)
     {
         if (!$this->getUser()->hasRole('ROLE_ADMIN') and ($this->getUser() != $post->getAuthor())) {
-            $session = new Session();
-            $session->getFlashBag()->add('danger', 'Permission denied');
+            $this->addFlash('danger', 'Permission denied');
             $redirect = $request->headers->get('referer');
             if (is_null($redirect)) {
                 $redirect = $this->generateUrl('post_index');
@@ -225,6 +230,12 @@ class PostController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            // Check if content is empty (cannot do this into form, because of markdown editor)
+            if (empty($post->getContent())) {
+                $this->addFlash('danger', $this->get('translator')->trans("page.post.new.error.no-content"));
+                return $this->redirectToRoute("post_new");
+            }
+
             // Stop XSS insertion to content
             $data = $editForm->getData();
             $data->setContent(str_ireplace('<script>', '&lt;script&gt;', $data->getContent()));
