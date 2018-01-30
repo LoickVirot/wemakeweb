@@ -63,7 +63,7 @@
         </header>
         {{ post.content|raw }}
         <div>
-            <small class="text-secondary"><span class="oi oi-tags"></span>&nbsp;{{ post.tags }}</small>
+            <small class="text-secondary"><span class="oi oi-tags"></span>&nbsp;{{ post.tags|default("common.none"|trans) }}</small>
         </div>
     </div>
     <hr>
