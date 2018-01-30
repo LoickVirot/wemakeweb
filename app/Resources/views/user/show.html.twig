@@ -54,7 +54,7 @@
                                     <a href="{{ path('post_show', {slug: post.entity.slug}) }}">{{post.entity.title}}</a>
                                 </h3>
                                 <div class="card-text">
-                                    {{ post.entity.content|truncate(150)|striptags }}
+                                    {{ post.entity.content|truncate(150)|raw }} {# row because striptagged before #}
                                 </div>
                                 <div class="card-text">
                                     {% if post.entity.category.name is defined %}
