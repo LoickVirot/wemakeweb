@@ -70,6 +70,12 @@ class Comment
         $this->date = new \DateTime();
     }
 
+
+    public function __toString()
+    {
+        return (String) $this->id;
+    }
+
     /**
      * Get id
      *

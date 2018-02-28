@@ -160,7 +160,6 @@ class PostController extends Controller
             $params['user'] = $this->getUser();
         }
         $postUser = $em->getRepository('AppBundle:PostUser')->findOneBy($params);
-
         if ($postUser == null) {
             $postUser = new PostUser();
             $postUser->setPost($post);
@@ -181,15 +180,14 @@ class PostController extends Controller
             }
         }
 
+        $em->persist($postUser);
+        $em->flush();
+
         //manage tags
         $tags = $post->getTags();
         $tags = explode(',', $tags);
         $tags = implode(', ', $tags);
         $post->setTags($tags);
-
-
-        $em->persist($postUser);
-        $em->flush();
 
         $nbViews = $em->getRepository('AppBundle:PostUser')->getNbReads($post);
 
