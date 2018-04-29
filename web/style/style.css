@@ -206,7 +206,9 @@ nav .nav-link {
 }
 
 #post-show .post-content img {
-    width: 100%;
+    max-width: 100%;
+    display: block;
+    margin: auto;
 }
 
 #post-show .author .profile-picture {
