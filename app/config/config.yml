@@ -128,6 +128,7 @@ nelmio_security:
                 - 'self'
                 - '*.imgur.com'
                 - '*.reactiongifs.com'
+                - 'reactiongifs.com'
             frame-src:
                 - '*.youtube.com'
             block-all-mixed-content: true # defaults to false, blocks HTTP content over HTTPS transport
