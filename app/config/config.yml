@@ -125,10 +125,7 @@ nelmio_security:
                 - 'cdnjs.cloudflare.com'
                 - 'maxcdn.bootstrapcdn.com'
             img-src:
-                - 'self'
-                - '*.imgur.com'
-                - '*.reactiongifs.com'
-                - 'reactiongifs.com'
+                - '*'
             frame-src:
                 - '*.youtube.com'
             block-all-mixed-content: true # defaults to false, blocks HTTP content over HTTPS transport
