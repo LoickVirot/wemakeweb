@@ -205,7 +205,8 @@ nav .nav-link {
     text-align: justify;
 }
 
-#post-show .post-content img {
+#post-show .post-content img,
+#post-show .post-content iframe {
     max-width: 100%;
     display: block;
     margin: auto;
