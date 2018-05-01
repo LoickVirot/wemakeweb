@@ -205,8 +205,11 @@ nav .nav-link {
     text-align: justify;
 }
 
-#post-show .post-content img {
-    width: 100%;
+#post-show .post-content img,
+#post-show .post-content iframe {
+    max-width: 100%;
+    display: block;
+    margin: auto;
 }
 
 #post-show .author .profile-picture {
