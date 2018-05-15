@@ -194,8 +194,8 @@ class PostController extends Controller
         $deleteForm = $this->createDeleteForm($post);
 
         // Parsedown to html
-        $parser = new Parsedown();
-        $post->setContent($parser->parse($post->getContent()));
+
+        $post->setContent($this->getParsedText($post->getContent()));
 
         return $this->render('post/show.html.twig', array(
             'post' => $post,
@@ -416,6 +416,7 @@ class PostController extends Controller
      * Create a comment (AJAX required)
      * @Route("/post/comment/{comment}", name="post_delete_comment")
      * @Method("DELETE")
+     * @Security("has_role('IS_AUTHENTICATED_FULLY')")
      *
      * @param Comment $comment
      * @return \Symfony\Component\HttpFoundation\Response
@@ -434,5 +435,29 @@ class PostController extends Controller
         } catch(\Exception $e) {
             return $this->json(json_encode("error : " . $e->getMessage() ), 400);
         }
+    }
+
+    /**
+     * Take a markdown text and return the HTML
+     * @Route("/post/preview", name="post_preview")
+     * @Method("POST")
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function getPreviewPost(Request $request) {
+        $text = $request->request->get('text');
+
+        if (is_null($text)) {
+            return $this->json("Text value cannot be null", 400);
+        }
+
+        return $this->json(["result" => $this->getParsedText($text)]);
+    }
+
+    private function getParsedText(String $text)
+    {
+        $parser = new Parsedown();
+        return $parser->parse($text);
     }
 }

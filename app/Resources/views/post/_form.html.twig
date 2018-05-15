@@ -17,25 +17,56 @@
                 hideIcons: ["fullscreen", "side-by-side", "heading"]
             });
 
+            editor.codemirror.on("change", debounce(function() {
+                $.post({
+                    url: "{{ path('post_preview', {}) }}",
+                    data: {
+                        text: editor.value()
+                    },
+                    success: function (data) {
+                        var prev_text = data.result;
+                        $("#post-preview").html(prev_text);
+                    }
+                });
+            }, 1000));
+
             $('#appbundle_post_tags').tagsInput({
                 'height':'45px',
                 'width':'100%',
                 'placeholderColor' : '#9c9c9c'
             });
+
+            function debounce(fn, delay) {
+                var timer = null;
+                return function () {
+                    var context = this, args = arguments;
+                    clearTimeout(timer);
+                    timer = setTimeout(function () {
+                        fn.apply(context, args);
+                    }, delay);
+                };
+            }
         });
     </script>
 {% endblock %}
 
 {% block body %}
-    <div class="container page-content">
+    <div class="container-fluid page-content" id="create-post-page">
         <h1>{{ "page.post.new.title"|trans }}</h1>
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <div class="float-right">
-            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-outline-secondary">{{ "common.action.cancel"|trans }}</a>
-            <input type="submit" value="{{ "common.action.create"|trans }}" class="btn btn-primary"/>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <div class="float-right">
+                    <a href="{{ app.request.headers.get('referer') }}" class="btn btn-outline-secondary">{{ "common.action.cancel"|trans }}</a>
+                    <input type="submit" value="{{ "common.action.create"|trans }}" class="btn btn-primary"/>
+                </div>
+                {{ form_end(form) }}
+            </div>
+            <div class="col-md-6 post-content" id="post-preview">
+
+            </div>
         </div>
-        {{ form_end(form) }}
 
     </div>
 {% endblock %}
