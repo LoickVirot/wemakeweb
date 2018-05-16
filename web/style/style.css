@@ -1,5 +1,11 @@
+/* ====== BOOTSTRAP OVERRIDE ====== */
+.card-footer {
+    border-top: none;
+}
+
+/* ====== WEMAKEWEB SPECIFIC ====== */
+
 body {
-    background-color: #EAEAEA;
     display: flex;
     min-height: 100vh;
     flex-direction: column;
@@ -212,6 +218,10 @@ nav .nav-link {
     margin: auto;
 }
 
+.post-content code {
+    border-radius: 5px;
+}
+
 #post-show .author .profile-picture {
     width: 50px;
     height: 50px;
@@ -235,6 +245,8 @@ nav .nav-link {
 #create-post-page {
     max-width: 1400px;
     margin: auto;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 #post-preview {
