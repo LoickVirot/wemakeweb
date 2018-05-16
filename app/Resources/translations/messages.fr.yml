@@ -28,7 +28,7 @@ page:
         edit:
             title: Modifier un article
         new:
-            title: Créer un article
+            title: Rédaction
             error:
                 no-content: Le contenu de l'article ne peut pas être vide
         webhook: "Un nouvel article a été mis en ligne sur le blog collaboratif !"
@@ -83,6 +83,8 @@ common:
         cancel: Annuler
         create: Créer
         confirm: Confirmer
+        publish: Publier
+        save: Sauvegarder
     none: Aucun
 
 error:

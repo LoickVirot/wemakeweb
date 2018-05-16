@@ -9,25 +9,17 @@
 
     <script>
         $(document).ready(function() {
-            editor = new SimpleMDE({
+            var editor = new SimpleMDE({
                 element: $("#appbundle_post_content")[0],
                 spellChecker: false,
                 promptURLs: true,
-                showIcons: ["code", "table", "heading-1", "heading-2", "heading-3"],
-                hideIcons: ["fullscreen", "side-by-side", "heading"]
+                toolbar: ["bold", "italic", "heading-1", "heading-2", "heading-3", "|", "quote", "code", "ordered-list", "unordered-list", "|", "image", "link", "table", "|", "guide"],
             });
 
+            getPreview();
+
             editor.codemirror.on("change", debounce(function() {
-                $.post({
-                    url: "{{ path('post_preview', {}) }}",
-                    data: {
-                        text: editor.value()
-                    },
-                    success: function (data) {
-                        var prev_text = data.result;
-                        $("#post-preview").html(prev_text);
-                    }
-                });
+                getPreview()
             }, 1000));
 
             $('#appbundle_post_tags').tagsInput({
@@ -46,27 +38,48 @@
                     }, delay);
                 };
             }
+
+            function getPreview() {
+                $.post({
+                    url: "{{ path('post_preview', {}) }}",
+                    data: {
+                        text: editor.value()
+                    },
+                    success: function (data) {
+                        var prev_text = data.result;
+                        $("#post-preview").html(prev_text);
+                    }
+                });
+            }
         });
     </script>
 {% endblock %}
 
 {% block body %}
     <div class="container-fluid page-content" id="create-post-page">
-        <h1>{{ "page.post.new.title"|trans }}</h1>
+        {{ form_start(form) }}
         <div class="row">
             <div class="col-md-6">
-                {{ form_start(form) }}
+                <h1>{{ "page.post.new.title"|trans }}</h1>
                 {{ form_widget(form) }}
-                <div class="float-right">
-                    <a href="{{ app.request.headers.get('referer') }}" class="btn btn-outline-secondary">{{ "common.action.cancel"|trans }}</a>
-                    <input type="submit" value="{{ "common.action.create"|trans }}" class="btn btn-primary"/>
-                </div>
-                {{ form_end(form) }}
             </div>
-            <div class="col-md-6 post-content" id="post-preview">
-
+            <div class="col-md-6">
+                <div class="card card-body">
+                    <h2>Actions</h2>
+                    <div>
+                        <button type="button" href="#" class="btn btn-secondary">Draft</button>
+                        <div class="float-right">
+                            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-outline-secondary"><span class="oi oi-arrow-left"></span>&nbsp;{{ "common.action.back"|trans }}</a>
+                            <button type="submit" class="btn btn-primary"><span class="oi oi-check"></span>&nbsp;{{ (isNew ? "common.action.publish" : "common.action.save")|trans }}</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="post-preview" class="post-content">
+                    <i>Waiting for input..</i>
+                </div>
             </div>
         </div>
+        {{ form_end(form) }}
 
     </div>
 {% endblock %}

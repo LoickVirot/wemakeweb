@@ -1,21 +1,3 @@
 {% extends 'base.html.twig' %}
 
 {% use "post/_form.html.twig" %}
-
-{% block body %}
-<div class="container page-content" id="post-edit">
-    <h1>{{ "page.post.edit.title"|trans }}</h1>
-
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <div class="float-right">
-            <input type="submit" value="{{ "common.action.edit"|trans }}" class="btn btn-primary"/>
-        </div>
-    {{ form_end(edit_form) }}
-
-    {{ form_start(delete_form) }}
-        <a href="{{ app.request.headers.get('referer') }}" class="btn btn-outline-secondary btn-sm"><span class="oi oi-arrow-left"></span>&nbsp;{{ "common.action.back"|trans }}</a>
-        <button type="submit" class="btn btn-danger btn-sm"><span class="oi oi-trash"></span>&nbsp;{{ "common.action.delete"|trans }}</button>
-    {{ form_end(delete_form) }}
-</div>
-{% endblock %}

@@ -137,6 +137,7 @@ class PostController extends Controller
         return $this->render('post/new.html.twig', array(
             'post' => $post,
             'form' => $form->createView(),
+            'isNew' => true
         ));
     }
 
@@ -249,8 +250,9 @@ class PostController extends Controller
 
         return $this->render('post/edit.html.twig', array(
             'post' => $post,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'isNew' => false
         ));
     }
 

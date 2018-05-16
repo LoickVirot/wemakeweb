@@ -236,6 +236,11 @@ nav .nav-link {
     max-width: 1400px;
     margin: auto;
 }
+
+#post-preview {
+    margin-top: 30px;
+}
+
 #user_show .posts article {
     margin-bottom: 30px;
 }
