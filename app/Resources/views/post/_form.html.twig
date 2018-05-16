@@ -1,11 +1,13 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('style/simplemde.min.css') }}">
     <link rel="stylesheet" href="{{ asset('style/jquery.tagsinput.css') }}">
+    <link rel="stylesheet" href="{{ asset('javascript/highlight/styles/atom-one-dark.css') }}">
 {% endblock %}
 
 {% block javascripts %}
     <script src="{{ asset('javascript/simplemde.min.js') }}"></script>
     <script src="{{ asset("javascript/jquery.tagsinput.min.js") }}"></script>
+    <script src="{{ asset('javascript/highlight/highlight.pack.js') }}"></script>
 
     <script>
         $(document).ready(function() {
@@ -48,6 +50,12 @@
                     success: function (data) {
                         var prev_text = data.result;
                         $("#post-preview").html(prev_text);
+
+                        hljs.initHighlightingOnLoad();
+
+                        $('pre code').each(function(i, block) {
+                            hljs.highlightBlock(block);
+                        });
                     }
                 });
             }

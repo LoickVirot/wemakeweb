@@ -93,15 +93,31 @@
 </div>
 {% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('javascript/highlight/styles/atom-one-dark.css') }}">
+{% endblock %}
+
 {% block javascripts %}
 
-<script>
-    $('.pop-up').on('click', function (e) {
-        e.preventDefault();
-        var newWindow=window.open($(this).attr('href'),'','height=400,width=600');
-        if (window.focus) {newWindow.focus()}
-        return false;
-    });
-</script>
+    <script src="{{ asset('javascript/highlight/highlight.pack.js') }}"></script>
+
+    <script>
+
+        $(document).ready(function() {
+            hljs.initHighlightingOnLoad();
+
+            $('pre code').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
+
+            $('.pop-up').on('click', function (e) {
+                e.preventDefault();
+                var newWindow=window.open($(this).attr('href'),'','height=400,width=600');
+                if (window.focus) {newWindow.focus()}
+                return false;
+            });
+        });
+
+    </script>
 
 {% endblock %}
