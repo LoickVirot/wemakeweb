@@ -76,9 +76,9 @@
                     <h2>Actions</h2>
                     <div>
                         <button type="button" href="#" class="btn btn-secondary">Draft</button>
-                        <div class="float-right">
-                            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-outline-secondary"><span class="oi oi-arrow-left"></span>&nbsp;{{ "common.action.back"|trans }}</a>
-                            <button type="submit" class="btn btn-primary"><span class="oi oi-check"></span>&nbsp;{{ (isNew ? "common.action.publish" : "common.action.save")|trans }}</button>
+                        <div class="float-right btn-group">
+                            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-outline-secondary">{{ "common.action.cancel"|trans }}</a>
+                            <button type="submit" class="btn btn-primary">{{ (isNew ? "common.action.publish" : "common.action.save")|trans }}</button>
                         </div>
                     </div>
                 </div>
