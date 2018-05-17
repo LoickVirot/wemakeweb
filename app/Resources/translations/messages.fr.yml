@@ -28,9 +28,15 @@ page:
         edit:
             title: Modifier un article
         new:
-            title: Créer un article
+            title: Rédaction
             error:
                 no-content: Le contenu de l'article ne peut pas être vide
+        delete:
+            modal:
+                title: Supprimer
+                sure: Êtes-vous sur de vouloir supprimer cet article ?
+            flash:
+                confirmation: Votre article a bien été supprimé.
         webhook: "Un nouvel article a été mis en ligne sur le blog collaboratif !"
     user:
         edit:
@@ -83,6 +89,8 @@ common:
         cancel: Annuler
         create: Créer
         confirm: Confirmer
+        publish: Publier
+        save: Sauvegarder
     none: Aucun
 
 error:
