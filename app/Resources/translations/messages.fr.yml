@@ -31,6 +31,12 @@ page:
             title: Rédaction
             error:
                 no-content: Le contenu de l'article ne peut pas être vide
+        delete:
+            modal:
+                title: Supprimer
+                sure: Êtes-vous sur de vouloir supprimer cet article ?
+            flash:
+                confirmation: Votre article a bien été supprimé.
         webhook: "Un nouvel article a été mis en ligne sur le blog collaboratif !"
     user:
         edit:

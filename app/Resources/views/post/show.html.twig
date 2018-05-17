@@ -3,14 +3,34 @@
 {% block body %}
 <div class="container page-content" id="post-show">
     <div class="post-action">
-        {% if app.user == post.author or is_granted('ROLE_ADMIN') %}    
-            {{ form_start(delete_form) }}        
+        {% if app.user == post.author or is_granted('ROLE_ADMIN') %}
             <div class="btn-group float-right">
-                <button type="submit" class="btn btn-outline-danger btn-sm"><span class="oi oi-trash"></span>&nbsp;{{ "common.action.delete"|trans }}</button>
+
+                <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-outline-danger btn-sm"><span class="oi oi-trash"></span>&nbsp;{{ "common.action.delete"|trans }}</button>
                 <a href="{{ path('post_edit', { 'id': post.id }) }}" class="btn btn-outline-primary btn-sm"><span class="oi oi-pencil"></span>&nbsp;{{ "common.action.edit"|trans }}</a>
             </div>
-            {{ form_end(delete_form) }}
-        {% endif %}    
+            <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">{{ "page.post.delete.modal.title"|trans }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>{{ "page.post.delete.modal.sure"|trans }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            {{ form_start(delete_form) }}
+                                <button type="submit" class="btn btn-danger btn-sm"><span class="oi oi-trash"></span>&nbsp;{{ "common.action.delete"|trans }}</button>
+                            {{ form_end(delete_form) }}
+                            <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">{{ "common.action.back"|trans }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
         <a href="{{ app.request.headers.get('referer') }}" class="btn btn-outline-secondary btn-sm"><span class="oi oi-arrow-left"></span>&nbsp;{{ "common.action.back"|trans }}</a>
     </div>
     <div class="author">
