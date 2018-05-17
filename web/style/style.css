@@ -1,5 +1,11 @@
+/* ====== BOOTSTRAP OVERRIDE ====== */
+.card-footer {
+    border-top: none;
+}
+
+/* ====== WEMAKEWEB SPECIFIC ====== */
+
 body {
-    background-color: #EAEAEA;
     display: flex;
     min-height: 100vh;
     flex-direction: column;
@@ -196,20 +202,24 @@ nav .nav-link {
     font-weight: normal;
 }
 
-#post-show .post-content .post-header {
+.post-content .post-header {
     margin-bottom: 30px;
 }
 
-#post-show .post-content {
+.post-content {
     font-size: 1.2em;
     text-align: justify;
 }
 
-#post-show .post-content img,
-#post-show .post-content iframe {
+.post-content img,
+.post-content iframe {
     max-width: 100%;
     display: block;
     margin: auto;
+}
+
+.post-content code {
+    border-radius: 5px;
 }
 
 #post-show .author .profile-picture {
@@ -230,6 +240,17 @@ nav .nav-link {
 #post-show .author .user-info {
     color: #AAAAAA;
     font-style: italic;
+}
+
+#create-post-page {
+    max-width: 1400px;
+    margin: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#post-preview {
+    margin-top: 30px;
 }
 
 #user_show .posts article {

@@ -17,6 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -137,6 +138,7 @@ class PostController extends Controller
         return $this->render('post/new.html.twig', array(
             'post' => $post,
             'form' => $form->createView(),
+            'isNew' => true
         ));
     }
 
@@ -194,8 +196,8 @@ class PostController extends Controller
         $deleteForm = $this->createDeleteForm($post);
 
         // Parsedown to html
-        $parser = new Parsedown();
-        $post->setContent($parser->parse($post->getContent()));
+
+        $post->setContent($this->getParsedText($post->getContent()));
 
         return $this->render('post/show.html.twig', array(
             'post' => $post,
@@ -249,8 +251,9 @@ class PostController extends Controller
 
         return $this->render('post/edit.html.twig', array(
             'post' => $post,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'isNew' => false
         ));
     }
 
@@ -280,6 +283,7 @@ class PostController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($post);
             $em->flush();
+            $this->addFlash("success", $this->get("translator")->trans("page.post.delete.flash.confirmation"));
         }
 
         return $this->redirectToRoute('post_index');
@@ -416,6 +420,7 @@ class PostController extends Controller
      * Create a comment (AJAX required)
      * @Route("/post/comment/{comment}", name="post_delete_comment")
      * @Method("DELETE")
+     * @Security("has_role('IS_AUTHENTICATED_FULLY')")
      *
      * @param Comment $comment
      * @return \Symfony\Component\HttpFoundation\Response
@@ -434,5 +439,29 @@ class PostController extends Controller
         } catch(\Exception $e) {
             return $this->json(json_encode("error : " . $e->getMessage() ), 400);
         }
+    }
+
+    /**
+     * Take a markdown text and return the HTML
+     * @Route("/post/preview", name="post_preview")
+     * @Method("POST")
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function getPreviewPost(Request $request) {
+        $text = $request->request->get('text');
+
+        if (is_null($text)) {
+            return $this->json("Text value cannot be null", 400);
+        }
+
+        return $this->json(["result" => $this->getParsedText($text)]);
+    }
+
+    private function getParsedText(String $text)
+    {
+        $parser = new Parsedown();
+        return $parser->parse($text);
     }
 }
