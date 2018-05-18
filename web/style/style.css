@@ -257,6 +257,10 @@ nav .nav-link {
     margin-bottom: 30px;
 }
 
+#user-posts-tabs {
+    margin-bottom: 30px;
+}
+
 #user_edit .profile-picture img {
     width: 100%;
 }
