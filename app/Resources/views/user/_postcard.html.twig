@@ -4,10 +4,12 @@
             <a href="{{ path('post_show', {slug: post.entity.slug}) }}">{{post.entity.title}}</a>
         </h3>
         <div class="card-text">
-            {{ post.entity.published ? "article" : "article-draft" }}<br />
             {{ post.entity.content|truncate(150)|raw }} {# row because striptagged before #}
         </div>
         <div class="card-text">
+            {% if not post.entity.published %}
+                <span class="badge badge-pill badge-warning float-right">{{ "common.draft"|trans }}</span>
+            {% endif %}
             {% if post.entity.category.name is defined %}
                 <small class="post-category">
                     <a href="{{ path('post_category', {'slug': post.entity.category.slug}) }}" class="text-secondary">

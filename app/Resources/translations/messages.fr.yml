@@ -53,6 +53,7 @@ page:
                 success: Votre compte a bien été supprimé
         show:
             edit_profile: Modifier le profil
+            draft: Mes brouillons
         login:
             title: Se connecter
             username: Nom d'utilisateur
@@ -93,6 +94,7 @@ common:
         publish: Publier
         save: Sauvegarder
     none: Aucun
+    draft: Brouillon
 
 error:
     500:
@@ -112,4 +114,6 @@ Lastname: Nom
 Website: Site web
 Email: Email
 Twitter: Twitter
-Published: Publier
+Published: Publié
+Publish: Publier
+

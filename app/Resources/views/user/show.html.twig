@@ -45,10 +45,10 @@
                 {% if app.user == user %}
                 <ul class="nav nav-pills" id="user-posts-tabs" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="published-tab" data-toggle="tab" href="#publishedPosts" role="tab" aria-controls="published" aria-selected="true">Published</a>
+                        <a class="nav-link active" id="published-tab" data-toggle="tab" href="#publishedPosts" role="tab" aria-controls="published" aria-selected="true">{{ "Published"|trans }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="draft-tab" data-toggle="tab" href="#draftPosts" role="tab" aria-controls="draft" aria-selected="false">Draft</a>
+                        <a class="nav-link" id="draft-tab" data-toggle="tab" href="#draftPosts" role="tab" aria-controls="draft" aria-selected="false">{{ "page.user.show.draft"|trans }}</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="user-posts-list">
