@@ -20,6 +20,7 @@ page:
             desc: Voici les derniers articles publiés
         show:
             author: L'auteur
+            notpublished: Cet article n'est pas encore publié. Vous êtes le seul à pouvoir le voir actuellement
             comments:
                 title: Commentaires
                 commentph: Poster un commentaire...
@@ -111,3 +112,4 @@ Lastname: Nom
 Website: Site web
 Email: Email
 Twitter: Twitter
+Published: Publier

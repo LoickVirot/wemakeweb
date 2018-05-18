@@ -51,7 +51,7 @@ class Comment
     private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Comment", inversedBy="responses", cascade={"persist"} )
+     * @ORM\ManyToOne(targetEntity="Comment", inversedBy="comments", cascade={"persist"} )
      * @JoinColumn(name="response_to", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     private $answerTo;

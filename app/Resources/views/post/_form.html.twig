@@ -69,17 +69,20 @@
         <div class="row">
             <div class="col-md-6">
                 <h1>{{ "page.post.new.title"|trans }}</h1>
-                {{ form_widget(form) }}
+                {{ form_row(form.title) }}
+                {{ form_row(form.content) }}
+                {{ form_row(form.category) }}
+                {{ form_row(form.tags) }}
             </div>
             <div class="col-md-6">
                 <div class="card card-body">
                     <h2>Actions</h2>
                     <div>
-                        <button type="button" href="#" class="btn btn-secondary">Draft</button>
                         <div class="float-right btn-group">
                             <a href="{{ app.request.headers.get('referer') }}" class="btn btn-outline-secondary">{{ "common.action.cancel"|trans }}</a>
                             <button type="submit" class="btn btn-primary">{{ (isNew ? "common.action.publish" : "common.action.save")|trans }}</button>
                         </div>
+                        {{ form_row(form.published) }}
                     </div>
                 </div>
                 <div id="post-preview" class="post-content">

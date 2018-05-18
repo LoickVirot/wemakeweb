@@ -1,0 +1,36 @@
+<article class="card {{ post.entity.published ? "article" : "article-draft" }}">
+    <div class="card-body">
+        <h3 class="card-title">
+            <a href="{{ path('post_show', {slug: post.entity.slug}) }}">{{post.entity.title}}</a>
+        </h3>
+        <div class="card-text">
+            {{ post.entity.published ? "article" : "article-draft" }}<br />
+            {{ post.entity.content|truncate(150)|raw }} {# row because striptagged before #}
+        </div>
+        <div class="card-text">
+            {% if post.entity.category.name is defined %}
+                <small class="post-category">
+                    <a href="{{ path('post_category', {'slug': post.entity.category.slug}) }}" class="text-secondary">
+                        <span class="oi oi-tags"></span>&nbsp;
+                        {{ post.entity.category.name }}</a>
+                </small>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-footer text-secondary">
+        <div class="row">
+            <div class="col text-secondary">
+                {% if post.entity.lastUpdate is not null %}
+                    <small class="post-date">{{ "common.updated_at"|trans }} {{ post.entity.lastUpdate|date('d F Y') }}</small>
+                {% else %}
+                    <small class="post-date">{{ "common.created_at"|trans }} {{ post.entity.creationDate|date('d F Y') }}</small>
+                {% endif %}
+            </div>
+            <div class="col text-right">
+                <small>{{ post.nbviews }} {{ "common.view"|transchoice(post.nbviews) }}</small>
+                &nbsp;-&nbsp;
+                <small>{{ post.entity.comments|length }} {{ "common.comment"|transchoice(post.entity.comments|length) }}</small>
+            </div>
+        </div>
+    </div>
+</article>
