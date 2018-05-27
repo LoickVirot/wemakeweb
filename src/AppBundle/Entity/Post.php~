@@ -70,7 +70,7 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="tags", type="string", length=255)
+     * @ORM\Column(name="tags", type="string", length=255, nullable=true)
      */
     private $tags;
 
@@ -81,8 +81,14 @@ class Post
 
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade="remove")
+     * @ORM\OrderBy({"date" = "DESC"})
      */
-    protected $comments;
+    private $comments;
+
+    /**
+     * @ORM\Column(name="published", type="boolean")
+     */
+    private $published;
 
     public function __construct() {
         $this->creationDate = new \DateTime();
@@ -326,5 +332,39 @@ class Post
     public function getPostUsers()
     {
         return $this->postUsers;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     *
+     * @return Post
+     */
+    public function addComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     */
+    public function removeComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

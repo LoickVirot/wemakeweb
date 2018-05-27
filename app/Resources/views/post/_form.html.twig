@@ -30,6 +30,12 @@
                 'placeholderColor' : '#9c9c9c'
             });
 
+            var publishedCheckbox = $('#appbundle_post_published');
+            publishedCheckbox.on("change", function () {
+                changePublishButton(this.checked);
+            });
+            publishedCheckbox.change();
+
             function debounce(fn, delay) {
                 var timer = null;
                 return function () {
@@ -59,6 +65,17 @@
                     }
                 });
             }
+
+            function changePublishButton(willPublish) {
+                if (typeof willPublish !== "boolean") {
+                    throw "willPublish must be a boolean";
+                }
+                var button = $('#publishBtn');
+                if (willPublish)
+                    button.text("{{ "common.action.publish"|trans }}");
+                else
+                    button.text("{{ "common.action.save"|trans }}")
+            }
         });
     </script>
 {% endblock %}
@@ -80,7 +97,7 @@
                     <div>
                         <div class="float-right btn-group">
                             <a href="{{ app.request.headers.get('referer') }}" class="btn btn-outline-secondary">{{ "common.action.cancel"|trans }}</a>
-                            <button type="submit" class="btn btn-primary">{{ (isNew ? "common.action.publish" : "common.action.save")|trans }}</button>
+                            <button type="submit" class="btn btn-primary" id="publishBtn">{{ (isNew ? "common.action.publish" : "common.action.save")|trans }}</button>
                         </div>
                         {{ form_row(form.published) }}
                     </div>
