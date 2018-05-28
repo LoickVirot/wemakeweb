@@ -42,48 +42,45 @@
                 </div>
             </div>
             <div class="col-md-8 posts">
-                {% if posts|length <= 0 %}
-                    <div class="alert alert-info">
-                         No posts published
+                {% if app.user == user %}
+                <ul class="nav nav-pills" id="user-posts-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="published-tab" data-toggle="tab" href="#publishedPosts" role="tab" aria-controls="published" aria-selected="true">{{ "Published"|trans }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="draft-tab" data-toggle="tab" href="#draftPosts" role="tab" aria-controls="draft" aria-selected="false">{{ "page.user.show.draft"|trans }}</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="user-posts-list">
+                    <div class="tab-pane fade show active" id="publishedPosts" role="tabpanel" aria-labelledby="published-tab">
+                        {% endif %}
+
+                        {#============== ALWAYS SHOWN ==============#}
+                        {% if posts.published|length <= 0 %}
+                            <div class="alert alert-info">
+                                No posts published
+                            </div>
+                        {% else %}
+                            {% for post in posts.published %}
+                                {% include 'user/_postcard.html.twig' with {'post': post} %}
+                            {% endfor %}
+                        {% endif %}
+                        {#===============================================#}
+
+                        {% if app.user == user %}
                     </div>
-                {% else %}
-                    {% for post in posts %}
-                        <article class="card">
-                            <div class="card-body">
-                                <h3 class="card-title">
-                                    <a href="{{ path('post_show', {slug: post.entity.slug}) }}">{{post.entity.title}}</a>
-                                </h3>
-                                <div class="card-text">
-                                    {{ post.entity.content|truncate(150)|raw }} {# row because striptagged before #}
-                                </div>
-                                <div class="card-text">
-                                    {% if post.entity.category.name is defined %}
-                                        <small class="post-category">
-                                            <a href="{{ path('post_category', {'slug': post.entity.category.slug}) }}" class="text-secondary">
-                                                <span class="oi oi-tags"></span>&nbsp;
-                                                {{ post.entity.category.name }}</a>
-                                        </small>
-                                    {% endif %}
-                                </div>
+                    <div class="tab-pane fade" id="draftPosts" role="tabpanel" aria-labelledby="draft-tab">
+                        {% if posts.draft|length <= 0 %}
+                            <div class="alert alert-info">
+                                No posts in draft
                             </div>
-                            <div class="card-footer text-secondary">
-                                <div class="row">
-                                    <div class="col text-secondary">
-                                        {% if post.entity.lastUpdate is not null %}
-                                            <small class="post-date">{{ "common.updated_at"|trans }} {{ post.entity.lastUpdate|date('d F Y') }}</small>
-                                        {% else %}
-                                            <small class="post-date">{{ "common.created_at"|trans }} {{ post.entity.creationDate|date('d F Y') }}</small>
-                                        {% endif %}
-                                    </div>
-                                    <div class="col text-right">
-                                        <small>{{ post.nbviews }} {{ "common.view"|transchoice(post.nbviews) }}</small>
-                                        &nbsp;-&nbsp;
-                                        <small>{{ post.entity.comments|length }} {{ "common.comment"|transchoice(post.entity.comments|length) }}</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                    {% endfor %}
+                        {% else %}
+                            {% for post in posts.draft %}
+                                {% include 'user/_postcard.html.twig' with {'post': post} %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
                 {% endif %}
             </div>
         </div>

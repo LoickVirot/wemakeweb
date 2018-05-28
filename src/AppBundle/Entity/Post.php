@@ -85,6 +85,11 @@ class Post
      */
     private $comments;
 
+    /**
+     * @ORM\Column(name="published", type="boolean", options={"default" : false})
+     */
+    private $published;
+
     public function __construct() {
         $this->creationDate = new \DateTime();
     }
@@ -361,5 +366,29 @@ class Post
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Set published
+     *
+     * @param boolean $published
+     *
+     * @return Post
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * Get published
+     *
+     * @return boolean
+     */
+    public function getPublished()
+    {
+        return $this->published;
     }
 }

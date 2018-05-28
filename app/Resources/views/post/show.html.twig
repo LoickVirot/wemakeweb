@@ -57,6 +57,11 @@
     </div>
     <hr>
     <div class="post-content">
+        {% if not post.published %}
+            <div class="alert alert-warning">
+                {{ "page.post.show.notpublished"|trans }}
+            </div>
+        {% endif %}
         <header class="post-header">
             <div class="post-info">
                 <div class="post-tags float-right">

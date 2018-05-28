@@ -44,7 +44,7 @@ class PostController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if (is_null($category)) {
-            $posts = $em->getRepository('AppBundle:Post')->findBy([], ['creationDate'=> 'desc']);
+            $posts = $em->getRepository('AppBundle:Post')->findBy(['published' => true], ['creationDate'=> 'desc']);
         } else {
             $posts = $em->getRepository('AppBundle:Post')->findBy([
                 "category" => $category
@@ -151,6 +151,11 @@ class PostController extends Controller
      */
     public function showAction(Request $request, Post $post)
     {
+        // Is post published or draft
+        if (!$post->getPublished() && $this->getUser() !== $post->getAuthor()) {
+            throw $this->createNotFoundException('Access denied : This post is not published');
+        }
+
         // Get or create association between post and actual user
         $em = $this->getDoctrine()->getManager();
         $params = [
@@ -196,7 +201,6 @@ class PostController extends Controller
         $deleteForm = $this->createDeleteForm($post);
 
         // Parsedown to html
-
         $post->setContent($this->getParsedText($post->getContent()));
 
         return $this->render('post/show.html.twig', array(

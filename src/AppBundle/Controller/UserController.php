@@ -28,12 +28,24 @@ class UserController extends Controller
     {
         $parsedown = new Parsedown();
         $em = $this->getDoctrine()->getManager();
-        $posts = [];
+        $posts = [
+            'published' => [],
+            'draft' => []
+        ];
         foreach ($user->getPosts() as $post) {
-            // Parse markdown and remove html tags
-            $post->setContent(strip_tags($parsedown->parse($post->getContent())));
-            $posts[$post->getId()]['entity'] = $post;
-            $posts[$post->getId()]['nbviews'] = $em->getRepository('AppBundle:PostUser')->getNbReads($post);
+            // Is the user's posts, get not published posts and add it to an array
+            if ($user === $this->getUser()) {
+                if (!$post->getPublished()) {
+                    $post->setContent(strip_tags($parsedown->parse($post->getContent())));
+                    $posts['draft'][$post->getId()]['entity'] = $post;
+                    $posts['draft'][$post->getId()]['nbviews'] = $em->getRepository('AppBundle:PostUser')->getNbReads($post);
+                }
+            }
+            if ($post->getPublished()) {
+                $post->setContent(strip_tags($parsedown->parse($post->getContent())));
+                $posts['published'][$post->getId()]['entity'] = $post;
+                $posts['published'][$post->getId()]['nbviews'] = $em->getRepository('AppBundle:PostUser')->getNbReads($post);
+            }
         }
 
         $deleteForm = $this->createDeleteForm($user);
