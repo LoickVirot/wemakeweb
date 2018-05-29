@@ -44,7 +44,7 @@
                                         {% if post.entity.lastUpdate is not null %}
                                         <small>{{ "common.updated_at"|trans }} {{ post.entity.lastUpdate|date('d/m/Y') }}</small>
                                         {% else %}
-                                        <small>{{ "common.created_at"|trans }} {{ post.entity.creationDate|date('d/m/Y') }}</small>
+                                        <small>{{ "common.created_at"|trans }} {{ post.entity.publicationDate|date('d F Y') is null ? post.entity.creationDate|date('d F Y') : post.entity.publicationDate|date('d F Y')}}</small>
                                         {% endif %}
                                     </div>
                                     <div>

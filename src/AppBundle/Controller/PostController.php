@@ -104,6 +104,10 @@ class PostController extends Controller
 
             $post->setAuthor($this->getUser());
 
+            if ($post->getPublished()) {
+                $post->setPublicationDate(new \DateTime());
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
             $em->flush();
@@ -245,8 +249,15 @@ class PostController extends Controller
             $data->setContent(str_ireplace('<script>', '&lt;script&gt;', $data->getContent()));
             $data->setContent(str_ireplace('</script>', '&lt;/script&gt;', $data->getContent()));
 
-            // Change last update
-            $data->setLastUpdate(new \DateTime());
+            if ($data->getPublished()) {
+                if (is_null($data->getPublicationDate())) {
+                    $data->setPublicationDate(new \DateTime());
+                }
+                else {
+                    // Change last update
+                    $data->setLastUpdate(new \DateTime());
+                }
+            }
 
             $this->getDoctrine()->getManager()->flush();
 
