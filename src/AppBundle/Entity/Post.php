@@ -49,6 +49,13 @@ class Post
     private $lastUpdate;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="publicationDate", type="datetimetz", nullable=true)
+     */
+    private $publicationDate;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=100)
@@ -390,5 +397,29 @@ class Post
     public function getPublished()
     {
         return $this->published;
+    }
+
+    /**
+     * Set publicationDate
+     *
+     * @param \DateTime $publicationDate
+     *
+     * @return Post
+     */
+    public function setPublicationDate($publicationDate)
+    {
+        $this->publicationDate = $publicationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get publicationDate
+     *
+     * @return \DateTime
+     */
+    public function getPublicationDate()
+    {
+        return $this->publicationDate;
     }
 }

@@ -80,7 +80,7 @@
                 {% if post.lastUpdate is not null %}
                     {{ "common.updated_at"|trans }} {{ post.lastUpdate|date('d F Y') }}
                 {% else %}
-                    {{ "common.created_at"|trans }} {{ post.creationDate|date('d F Y') }}
+                    {{ "common.created_at"|trans }} {{ post.publicationDate|date('d F Y') is null ? post.creationDate|date('d F Y') : post.publicationDate|date('d F Y')}}
                 {% endif %}
                 - {{ nbViews }} {{ "common.view"|transchoice(nbViews) }}
                 </small>
