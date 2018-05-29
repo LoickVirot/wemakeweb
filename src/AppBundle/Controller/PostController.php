@@ -104,33 +104,16 @@ class PostController extends Controller
 
             $post->setAuthor($this->getUser());
 
+            if ($post->getPublished()) {
+                $post->setPublicationDate(new \DateTime());
+                $this->sendDiscordAlert($post);
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
             $em->flush();
 
-            // Send article to Discord
-            $headers = [
-                "content" => $this->get('translator')->trans("page.post.webhook"),
-                "embeds" => [
-                    [
-                        "author" => [
-                            "name"  => $post->getAuthor()->getUsername(),
-                            "url"   => $this->getParameter("prod_url"). $this->generateUrl("user_show", ["username" => $post->getAuthor()->getUsername()]),
-                            "icon_url" => $this->getParameter("prod_url") . '/' . $this->getParameter("profile_picture_directory_twig") . $post->getAuthor()->getProfilePicture()
-                        ],
-                        "title" => $post->getTitle(),
-                        "description" => substr($post->getContent(), 0, 140) . "...",
-                        "url" => $this->getParameter("prod_url") . $this->generateUrl("post_show", ["slug" => $post->getSlug()]),
-                        "color" => 4172799
-                    ]
-                ]
-            ];
-            try {
-                $curl = new CurlSender($this->getParameter("webhook_url"), CURLOPT_POST, $headers);
-                $curl->send();
-            } catch(\Exception $e) {
-                // Not important, no excetion need to be throwed
-            }
+
 
             return $this->redirectToRoute('post_show', array('slug' => $post->getSlug()));
         }
@@ -245,8 +228,16 @@ class PostController extends Controller
             $data->setContent(str_ireplace('<script>', '&lt;script&gt;', $data->getContent()));
             $data->setContent(str_ireplace('</script>', '&lt;/script&gt;', $data->getContent()));
 
-            // Change last update
-            $data->setLastUpdate(new \DateTime());
+            if ($data->getPublished()) {
+                if (is_null($data->getPublicationDate())) { // First time published
+                    $data->setPublicationDate(new \DateTime());
+                    $this->sendDiscordAlert($post);
+                }
+                else {
+                    // Change last update
+                    $data->setLastUpdate(new \DateTime());
+                }
+            }
 
             $this->getDoctrine()->getManager()->flush();
 
@@ -467,5 +458,32 @@ class PostController extends Controller
     {
         $parser = new Parsedown();
         return $parser->parse($text);
+    }
+
+    private function sendDiscordAlert(Post $post)
+    {
+        // Send article to Discord
+        $headers = [
+            "content" => $this->get('translator')->trans("page.post.webhook"),
+            "embeds" => [
+                [
+                    "author" => [
+                        "name"  => $post->getAuthor()->getUsername(),
+                        "url"   => $this->getParameter("prod_url"). $this->generateUrl("user_show", ["username" => $post->getAuthor()->getUsername()]),
+                        "icon_url" => $this->getParameter("prod_url") . '/' . $this->getParameter("profile_picture_directory_twig") . $post->getAuthor()->getProfilePicture()
+                    ],
+                    "title" => $post->getTitle(),
+                    "description" => substr($post->getContent(), 0, 140) . "...",
+                    "url" => $this->getParameter("prod_url") . $this->generateUrl("post_show", ["slug" => $post->getSlug()]),
+                    "color" => 4172799
+                ]
+            ]
+        ];
+        try {
+            $curl = new CurlSender($this->getParameter("webhook_url"), CURLOPT_POST, $headers);
+            $curl->send();
+        } catch(\Exception $e) {
+            // Not important, no excetion need to be throwed
+        }
     }
 }
